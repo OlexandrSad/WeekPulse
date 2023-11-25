@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setTable()
         setSegment()
     }
     
@@ -26,6 +27,13 @@ class ViewController: UIViewController {
         segment.layer.cornerRadius = 10
         segment.layer.borderWidth = 2
         segment.layer.borderColor = UIColor.black.cgColor
+    }
+    
+    private func setTable() {
+        tasksTable.delegate = self
+        tasksTable.dataSource = self
+        let nib = UINib(nibName: "TaskTableViewCell", bundle: nil)
+        tasksTable.register(nib, forCellReuseIdentifier: "TaskCell")
     }
 
 }
@@ -77,4 +85,18 @@ extension ViewController: LUNSegmentedControlDelegate, LUNSegmentedControlDataSo
     }
 }
 
-
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell") as! TaskTableViewCell
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
+}

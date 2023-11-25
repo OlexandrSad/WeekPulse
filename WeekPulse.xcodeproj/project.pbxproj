@@ -17,6 +17,9 @@
 		11F89E542B0E62CA00EBB9AF /* WeekPulseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E532B0E62CA00EBB9AF /* WeekPulseTests.swift */; };
 		11F89E5E2B0E62CA00EBB9AF /* WeekPulseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E5D2B0E62CA00EBB9AF /* WeekPulseUITests.swift */; };
 		11F89E602B0E62CA00EBB9AF /* WeekPulseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E5F2B0E62CA00EBB9AF /* WeekPulseUITestsLaunchTests.swift */; };
+		11F89E782B11056800EBB9AF /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E772B11056800EBB9AF /* TaskViewController.swift */; };
+		11F89E812B123B6000EBB9AF /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E7F2B123B6000EBB9AF /* TaskTableViewCell.swift */; };
+		11F89E822B123B6000EBB9AF /* TaskTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11F89E802B123B6000EBB9AF /* TaskTableViewCell.xib */; };
 		B5D5E2ED47927762593ED706 /* Pods_WeekPulseTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3363C89A566E4C4261F15B2 /* Pods_WeekPulseTests.framework */; };
 		CB4866A6DE71E85D608F0236 /* Pods_WeekPulse_WeekPulseUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936923BCA962ED0BE1A29B4F /* Pods_WeekPulse_WeekPulseUITests.framework */; };
 		E7B12DCC24A8F1E003FC690A /* Pods_WeekPulse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4A251847D3C35926A986F7 /* Pods_WeekPulse.framework */; };
@@ -55,6 +58,9 @@
 		11F89E592B0E62CA00EBB9AF /* WeekPulseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeekPulseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		11F89E5D2B0E62CA00EBB9AF /* WeekPulseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekPulseUITests.swift; sourceTree = "<group>"; };
 		11F89E5F2B0E62CA00EBB9AF /* WeekPulseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekPulseUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		11F89E772B11056800EBB9AF /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
+		11F89E7F2B123B6000EBB9AF /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
+		11F89E802B123B6000EBB9AF /* TaskTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskTableViewCell.xib; sourceTree = "<group>"; };
 		2838CD73E6405525FC7D783F /* Pods-WeekPulseTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeekPulseTests.release.xcconfig"; path = "Target Support Files/Pods-WeekPulseTests/Pods-WeekPulseTests.release.xcconfig"; sourceTree = "<group>"; };
 		2ECEFB1C33D0524C30DAB2B0 /* Pods-WeekPulse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeekPulse.release.xcconfig"; path = "Target Support Files/Pods-WeekPulse/Pods-WeekPulse.release.xcconfig"; sourceTree = "<group>"; };
 		3E4A251847D3C35926A986F7 /* Pods_WeekPulse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeekPulse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,7 +126,8 @@
 			children = (
 				11F89E392B0E62C900EBB9AF /* AppDelegate.swift */,
 				11F89E3B2B0E62C900EBB9AF /* SceneDelegate.swift */,
-				11F89E3D2B0E62C900EBB9AF /* ViewController.swift */,
+				11F89E792B123AC500EBB9AF /* ViewControllers */,
+				11F89E7E2B123B3600EBB9AF /* Cells */,
 				11F89E3F2B0E62C900EBB9AF /* Main.storyboard */,
 				11F89E452B0E62CA00EBB9AF /* Assets.xcassets */,
 				11F89E472B0E62CA00EBB9AF /* LaunchScreen.storyboard */,
@@ -145,6 +152,24 @@
 				11F89E5F2B0E62CA00EBB9AF /* WeekPulseUITestsLaunchTests.swift */,
 			);
 			path = WeekPulseUITests;
+			sourceTree = "<group>";
+		};
+		11F89E792B123AC500EBB9AF /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				11F89E3D2B0E62C900EBB9AF /* ViewController.swift */,
+				11F89E772B11056800EBB9AF /* TaskViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		11F89E7E2B123B3600EBB9AF /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				11F89E7F2B123B6000EBB9AF /* TaskTableViewCell.swift */,
+				11F89E802B123B6000EBB9AF /* TaskTableViewCell.xib */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		432A764CB44F3E75100C570E /* Pods */ = {
@@ -282,6 +307,7 @@
 				11F89E492B0E62CA00EBB9AF /* LaunchScreen.storyboard in Resources */,
 				11F89E462B0E62CA00EBB9AF /* Assets.xcassets in Resources */,
 				11F89E412B0E62C900EBB9AF /* Main.storyboard in Resources */,
+				11F89E822B123B6000EBB9AF /* TaskTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +437,8 @@
 			files = (
 				11F89E3E2B0E62C900EBB9AF /* ViewController.swift in Sources */,
 				11F89E3A2B0E62C900EBB9AF /* AppDelegate.swift in Sources */,
+				11F89E812B123B6000EBB9AF /* TaskTableViewCell.swift in Sources */,
+				11F89E782B11056800EBB9AF /* TaskViewController.swift in Sources */,
 				11F89E3C2B0E62C900EBB9AF /* SceneDelegate.swift in Sources */,
 				11F89E442B0E62C900EBB9AF /* WeekPulse.xcdatamodeld in Sources */,
 			);
