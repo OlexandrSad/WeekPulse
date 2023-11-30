@@ -97,7 +97,7 @@
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="drq-C6-dfR">
                                 <rect key="frame" x="8" y="143" width="377" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Count" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugL-TO-unF">
                                 <rect key="frame" x="335" y="113" width="50" height="20.333333333333343"/>
@@ -137,7 +137,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="5" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="6rJ-c7-VoJ">
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="6rJ-c7-VoJ">
                                 <rect key="frame" x="285" y="259" width="100" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="p9S-H4-2eU"/>
@@ -208,7 +208,20 @@
                             <constraint firstItem="3Ef-Yb-flz" firstAttribute="centerY" secondItem="JcQ-on-AF5" secondAttribute="centerY" id="z9F-4Y-sxa"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="CNg-Sb-fGw"/>
+                    <navigationItem key="navigationItem" id="CNg-Sb-fGw">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="Pnz-ub-4te">
+                            <connections>
+                                <action selector="saveButton:" destination="7KD-UZ-ra5" id="LZg-2a-GEx"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="countLabel" destination="ugL-TO-unF" id="B9k-Nk-vZe"/>
+                        <outlet property="dedlineDatePicker" destination="6rJ-c7-VoJ" id="f8g-Sb-4X8"/>
+                        <outlet property="descrTextView" destination="whs-f9-idR" id="4hN-Yh-pc3"/>
+                        <outlet property="prioritySegment" destination="3Ef-Yb-flz" id="DFX-4m-WAi"/>
+                        <outlet property="titleTextField" destination="drq-C6-dfR" id="zqI-Rw-bQx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="56q-hY-1kX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -239,6 +252,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="KNO-Dr-E4z" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="aQp-XS-3Xj">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
