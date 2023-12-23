@@ -14,24 +14,31 @@ class TaskTableViewCell: UITableViewCell {
     @IBOutlet weak var dedlineLabel: UILabel!
     @IBOutlet weak var isOnSwitch: UISwitch!
     
+    private let colorPriorityView: [UIColor] = [.green, .yellow, .red, .systemGray3]
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        setPriorityView(color: .red)
+        setPriorityView(taskIsOn: true, priority: 2)
     }
     
-    func setPriorityView(color: UIColor) {
-        priorityView.backgroundColor = color
+    private func setPriorityView(taskIsOn: Bool, priority: Int) {
         priorityView.layer.cornerRadius = 15
         priorityView.layer.borderWidth = 3
-        priorityView.layer.borderColor = UIColor.black.cgColor
         priorityView.layer.shadowRadius = 15
-        priorityView.layer.shadowColor = color.cgColor
         priorityView.layer.shadowOffset = CGSize(width: 0, height: 0)
         priorityView.layer.shadowOpacity = .pi
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+        
+        if taskIsOn {
+            titleLabel.textColor = .black
+            priorityView.layer.borderColor = UIColor.black.cgColor
+            priorityView.backgroundColor = colorPriorityView[priority]
+            priorityView.layer.shadowColor = colorPriorityView[priority].cgColor
+        } else {
+            titleLabel.textColor = .lightGray
+            priorityView.layer.borderColor = UIColor.gray.cgColor
+            priorityView.backgroundColor = colorPriorityView.last
+            priorityView.layer.shadowColor = colorPriorityView.last?.cgColor
+        }
     }
     
 }

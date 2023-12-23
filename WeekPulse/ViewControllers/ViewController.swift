@@ -13,30 +13,35 @@ class ViewController: UIViewController {
     @IBOutlet weak var segment: LUNSegmentedControl!
     @IBOutlet weak var tasksTable: UITableView!
     
+    struct Constants {
+        static let heightCell: CGFloat = 70
+        static let backButtonTitle = "Back"
+        static let nibNameForCell = "TaskTableViewCell"
+        static let taskCellId = "TaskCell"
+    }
+    
     let dateFormatter = DateFormatter()
     let today = Date()
     let calendar = Calendar.current
     var dateComponent = DateComponents()
-    
-    let heightCell: CGFloat = 70
-    let backButtonTitle = "Back"
-    let nibNameForCell = "TaskTableViewCell"
-    let taskCellId = "TaskCell"
-    var titleForTaskVC = "WillBeMonthAndNumberHere"
-    var dayForColorTitleTaskVC = "WillBeDayOfWeekHere"
+    var dateForTaskVC = Date()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setTable()
         setSegment()
-    
-        dateFormatter.dateFormat = "MMMM dd"
-        navigationItem.title = dateFormatter.string(from: today)
-        navigationItem.backButtonTitle = backButtonTitle
+        setTitleVC()
         
-        dateFormatter.dateFormat = "E"
-        dayForColorTitleTaskVC = dateFormatter.string(from: today)
+        navigationItem.backButtonTitle = Constants.backButtonTitle
+    }
+    
+    
+    private func setTable() {
+        tasksTable.delegate = self
+        tasksTable.dataSource = self
+        let nib = UINib(nibName: Constants.nibNameForCell, bundle: nil)
+        tasksTable.register(nib, forCellReuseIdentifier: Constants.taskCellId)
     }
     
     
@@ -51,42 +56,51 @@ class ViewController: UIViewController {
     }
     
     
-    private func setTable() {
-        tasksTable.delegate = self
-        tasksTable.dataSource = self
-        let nib = UINib(nibName: nibNameForCell, bundle: nil)
-        tasksTable.register(nib, forCellReuseIdentifier: taskCellId)
+    private func textColorSegmented(index: Int) -> UIColor {
+        dateComponent.day = index
+        let newDate = calendar.date(byAdding: dateComponent, to: today)
+        dateFormatter.dateFormat = "E"
+        
+        if let newDate = newDate, dateFormatter.string(from: newDate) == "Sat" || dateFormatter.string(from: newDate) == "Sun" {
+            return .red
+        } else {
+            return .black
+        }
     }
     
     
-    private func setTitleForVC(addDayToCurrent: Int) {
-        dateComponent.day = addDayToCurrent
+    private func setTitleVC(addDay: Int = 0) {
+        dateComponent.day = addDay
         let newDate = calendar.date(byAdding: dateComponent, to: today)
-
-        dateFormatter.dateFormat = "MMMM dd"
+        
         if let date = newDate {
+            dateFormatter.dateFormat = "MMMM dd"
             let currentDate = dateFormatter.string(from: date)
             navigationItem.title = currentDate
-            
-            titleForTaskVC = currentDate
-            
-            dateFormatter.dateFormat = "E"
-            dayForColorTitleTaskVC = dateFormatter.string(from: date)
+        }
+    }
+    
+    
+    private func selectedDate(addDay: Int) {
+        dateComponent.day = addDay
+        let newDate = calendar.date(byAdding: dateComponent, to: today)
+        
+        if let date = newDate {
+            dateForTaskVC = date
         }
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? TaskViewController {
-            destinationVC.title = titleForTaskVC
-            destinationVC.dayForColorTitleVC = dayForColorTitleTaskVC
+            destinationVC.dateFromVC = dateForTaskVC
         }
     }
 
 }
 
 
-// MARK: - LUNSegmentD-DS
+// MARK: - LUNSegmentDelegate-DataSource
 extension ViewController: LUNSegmentedControlDelegate, LUNSegmentedControlDataSource {
    
     func numberOfStates(in segmentedControl: LUNSegmentedControl!) -> Int {
@@ -95,22 +109,15 @@ extension ViewController: LUNSegmentedControlDelegate, LUNSegmentedControlDataSo
     
     
     func segmentedControl(_ segmentedControl: LUNSegmentedControl!, titleForStateAt index: Int) -> String! {
+        segmentedControl.textColor = textColorSegmented(index: index)
+        
         dateComponent.day = index
         let newDate = calendar.date(byAdding: dateComponent, to: today)
-        dateFormatter.dateFormat = "E"
         
-        if let newDate = newDate, dateFormatter.string(from: newDate) == "Sat" || dateFormatter.string(from: newDate) == "Sun" {
-            segmentedControl.textColor = .red
-        } else {
-            segmentedControl.textColor = .black
-        }
-        
+        guard let newDate = newDate, index != 0 else { return "Today"}
+           
         dateFormatter.dateFormat = "E-dd"
-        if let newDate = newDate, index != 0 {
             return dateFormatter.string(from: newDate)
-        }
-        
-        return "Today"
        }
     
     
@@ -128,13 +135,14 @@ extension ViewController: LUNSegmentedControlDelegate, LUNSegmentedControlDataSo
     
     
     func segmentedControl(_ segmentedControl: LUNSegmentedControl!, didChangeStateFromStateAt fromIndex: Int, toStateAt toIndex: Int) {
-        setTitleForVC(addDayToCurrent: toIndex)
+        setTitleVC(addDay: toIndex)
+        selectedDate(addDay: toIndex)
     }
     
 }
 
 
-// MARK: - UITableViewD-DS
+// MARK: - UITableViewDelegate-DataSource
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -143,13 +151,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: taskCellId) as! TaskTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.taskCellId) as! TaskTableViewCell
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightCell
+        return Constants.heightCell
     }
     
 }

@@ -2,7 +2,7 @@
 //  TaskEntity+CoreDataProperties.swift
 //  
 //
-//  Created by Олександр on 25.11.2023.
+//  Created by Олександр on 22.12.2023.
 //
 //
 
@@ -16,10 +16,10 @@ extension TaskEntity {
         return NSFetchRequest<TaskEntity>(entityName: "TaskEntity")
     }
 
-    @NSManaged public var title: String?
-    @NSManaged public var dedline: String?
-    @NSManaged public var isOn: NSNumber?
+    @NSManaged public var dedline: Date?
+    @NSManaged public var id: String?
+    @NSManaged public var isOn: Bool
     @NSManaged public var priority: NSNumber?
-    @NSManaged public var id: UUID?
+    @NSManaged public var title: String?
 
 }

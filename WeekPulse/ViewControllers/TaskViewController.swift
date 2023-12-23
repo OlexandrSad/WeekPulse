@@ -15,27 +15,38 @@ class TaskViewController: UIViewController {
     @IBOutlet weak var descrTextView: UITextView!
     @IBOutlet weak var countLabel: UILabel!
     
-    let currentDate = Date()
-    let calendar = Calendar.current
-    
-    let maxLenghtForTitleTask = 30
+    let maxLenghtTitle = 30
     let titlePlaceholder = "Enter task title"
     let descrPlaceholder = "1. Enter task description\n2.\n3.\n..."
-    var dayForColorTitleVC = "Sat"
  
     var counterTitleChars = 0 {
         didSet {
-            countLabel.text = "\(counterTitleChars)/\(maxLenghtForTitleTask)"
+            countLabel.text = "\(counterTitleChars)/\(maxLenghtTitle)"
         }
     }
+    
+    let today = Date()
+    let calendar = Calendar.current
+    let dateFormatter = DateFormatter()
+    var dateFromVC = Date()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setViews()
+        setTitleVC(date: dateFromVC)
+    }
+    
+    
+    private func setTitleVC(date: Date) {
+        let weekDay = calendar.component(.weekday, from: date)
+        let weekDayString = dateFormatter.weekdaySymbols[weekDay - 1]
         
-        if dayForColorTitleVC == "Sat" || dayForColorTitleVC == "Sun" {
+        if weekDayString == "Saturday" || weekDayString == "Sunday" {
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.red]
         }
+        
+        dateFormatter.dateFormat = "MMMM dd"
+        navigationItem.title = dateFormatter.string(from: date)
     }
         
 
@@ -50,12 +61,17 @@ class TaskViewController: UIViewController {
         titleTextField.placeholder = titlePlaceholder
         titleTextField.clearButtonMode = .always
         
-        countLabel.text = "0/\(maxLenghtForTitleTask)"
+        countLabel.text = "0/\(maxLenghtTitle)"
         
         prioritySegment.selectedSegmentIndex = 2
-        
-        dedlineDatePicker.minimumDate = calendar.date(byAdding: .minute, value: 5, to: currentDate)
-        dedlineDatePicker.date = calendar.date(bySettingHour: 23, minute: 59, second: 0, of: currentDate) ?? currentDate
+            
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        let dateFromVCStr = dateFormatter.string(from: dateFromVC)
+        let todayStr = dateFormatter.string(from: today)
+        if dateFromVCStr == todayStr {
+            dedlineDatePicker.minimumDate = calendar.date(byAdding: .minute, value: 1, to: today)
+        }
+        dedlineDatePicker.date = calendar.date(bySettingHour: 23, minute: 59, second: 0, of: today) ?? today
         
         descrTextView.delegate = self
         descrTextView.textColor = .lightGray
@@ -87,25 +103,24 @@ extension TaskViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let count = textField.text?.count else { return true }
         
-        if count == maxLenghtForTitleTask {
+        if count == maxLenghtTitle {
             if string.isEmpty {
                 counterTitleChars = count - 1
             } else {
                 counterTitleChars = count
-                
                 return false
             }
         } else {
             counterTitleChars = string.isEmpty ? count - 1 : count + 1
         }
-
+        
         return true
     }
     
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == titleTextField {
-            textField.resignFirstResponder()
+            descrTextView.becomeFirstResponder()
         }
         return true
     }
