@@ -18,6 +18,7 @@ class ViewController: UIViewController {
         static let backButtonTitle = "Back"
         static let nibNameForCell = "TaskTableViewCell"
         static let taskCellId = "TaskCell"
+        static let segueToTaskVC = "ToTaskVC"
     }
     
     let dateFormatter = DateFormatter()
@@ -91,9 +92,18 @@ class ViewController: UIViewController {
     }
     
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let task = fetchedResultController.object(at: indexPath)
+        performSegue(withIdentifier: Constants.segueToTaskVC, sender: task)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationVC = segue.destination as? TaskViewController {
-            destinationVC.dateFromVC = dateForTaskVC
+        if segue.identifier == Constants.segueToTaskVC,
+           let taskVC = segue.destination as? TaskViewController {
+            taskVC.dateFromVC = dateForTaskVC
+            taskVC.task = sender as? TaskEntity
         }
     }
 

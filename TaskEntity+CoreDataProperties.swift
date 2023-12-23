@@ -2,7 +2,7 @@
 //  TaskEntity+CoreDataProperties.swift
 //  
 //
-//  Created by Олександр on 22.12.2023.
+//  Created by Олександр on 23.12.2023.
 //
 //
 
@@ -19,7 +19,8 @@ extension TaskEntity {
     @NSManaged public var dedline: Date?
     @NSManaged public var id: String?
     @NSManaged public var isOn: Bool
-    @NSManaged public var priority: NSNumber?
+    @NSManaged public var priority: Int16
     @NSManaged public var title: String?
+    @NSManaged public var descript: String?
 
 }

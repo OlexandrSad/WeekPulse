@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		118D32EE2B35FEB2009C8B0B /* TaskEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D32EC2B35FEB2009C8B0B /* TaskEntity+CoreDataClass.swift */; };
-		118D32EF2B35FEB2009C8B0B /* TaskEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D32ED2B35FEB2009C8B0B /* TaskEntity+CoreDataProperties.swift */; };
+		118D32FF2B37595E009C8B0B /* TaskEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D32FD2B37595E009C8B0B /* TaskEntity+CoreDataProperties.swift */; };
+		118D33002B37595E009C8B0B /* TaskEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D32FE2B37595E009C8B0B /* TaskEntity+CoreDataClass.swift */; };
 		11F89E3A2B0E62C900EBB9AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E392B0E62C900EBB9AF /* AppDelegate.swift */; };
 		11F89E3C2B0E62C900EBB9AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E3B2B0E62C900EBB9AF /* SceneDelegate.swift */; };
 		11F89E3E2B0E62C900EBB9AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E3D2B0E62C900EBB9AF /* ViewController.swift */; };
@@ -47,8 +47,8 @@
 
 /* Begin PBXFileReference section */
 		0290BBFA4068A5DD10691E27 /* Pods-WeekPulseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeekPulseTests.debug.xcconfig"; path = "Target Support Files/Pods-WeekPulseTests/Pods-WeekPulseTests.debug.xcconfig"; sourceTree = "<group>"; };
-		118D32EC2B35FEB2009C8B0B /* TaskEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TaskEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		118D32ED2B35FEB2009C8B0B /* TaskEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TaskEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		118D32FD2B37595E009C8B0B /* TaskEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TaskEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		118D32FE2B37595E009C8B0B /* TaskEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TaskEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		11F89E362B0E62C900EBB9AF /* WeekPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeekPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11F89E392B0E62C900EBB9AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		11F89E3B2B0E62C900EBB9AF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -183,8 +183,8 @@
 		11F89E842B125DDA00EBB9AF /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				118D32EC2B35FEB2009C8B0B /* TaskEntity+CoreDataClass.swift */,
-				118D32ED2B35FEB2009C8B0B /* TaskEntity+CoreDataProperties.swift */,
+				118D32FE2B37595E009C8B0B /* TaskEntity+CoreDataClass.swift */,
+				118D32FD2B37595E009C8B0B /* TaskEntity+CoreDataProperties.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -453,12 +453,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				11F89E3E2B0E62C900EBB9AF /* ViewController.swift in Sources */,
+				118D32FF2B37595E009C8B0B /* TaskEntity+CoreDataProperties.swift in Sources */,
+				118D33002B37595E009C8B0B /* TaskEntity+CoreDataClass.swift in Sources */,
 				11F89E3A2B0E62C900EBB9AF /* AppDelegate.swift in Sources */,
 				11F89E812B123B6000EBB9AF /* TaskTableViewCell.swift in Sources */,
 				11F89E782B11056800EBB9AF /* TaskViewController.swift in Sources */,
 				11F89E932B125FF000EBB9AF /* CoreDataManager.swift in Sources */,
-				118D32EE2B35FEB2009C8B0B /* TaskEntity+CoreDataClass.swift in Sources */,
-				118D32EF2B35FEB2009C8B0B /* TaskEntity+CoreDataProperties.swift in Sources */,
 				11F89E3C2B0E62C900EBB9AF /* SceneDelegate.swift in Sources */,
 				11F89E442B0E62C900EBB9AF /* WeekPulse.xcdatamodeld in Sources */,
 			);

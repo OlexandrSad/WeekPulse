@@ -29,6 +29,7 @@ class TaskViewController: UIViewController {
     let calendar = Calendar.current
     let dateFormatter = DateFormatter()
     var dateFromVC = Date()
+    var task: TaskEntity?
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -2,7 +2,7 @@
 //  TaskEntity+CoreDataClass.swift
 //  
 //
-//  Created by Олександр on 22.12.2023.
+//  Created by Олександр on 23.12.2023.
 //
 //
 
