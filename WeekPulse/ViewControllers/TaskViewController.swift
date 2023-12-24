@@ -33,8 +33,55 @@ class TaskViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setViews()
+        setViews(task: task)
         setTitleVC(date: dateFromVC)
+        
+        let tapOnClearScreen = UITapGestureRecognizer(target: self, action: #selector(hideAllKeyboard))
+        view.addGestureRecognizer(tapOnClearScreen)
+        print(task)
+    }
+
+    
+    func setViews(task: TaskEntity?) {
+        titleTextField.delegate = self
+        titleTextField.clearButtonMode = .always
+        descrTextView.delegate = self
+        descrTextView.layer.borderColor = UIColor.lightGray.cgColor
+        descrTextView.layer.borderWidth = 2
+        descrTextView.layer.cornerRadius = 5
+        
+        if let task = task {
+            guard let count = task.title?.count, let date = task.dedline else { return }
+            titleTextField.text = task.title
+            countLabel.text = "\(count)/\(maxLenghtTitle)"
+            prioritySegment.selectedSegmentIndex = Int(task.priority)
+            dedlineDatePicker.setDate(date, animated: true)
+            descrTextView.text = task.descript
+        } else {
+            titleTextField.placeholder = titlePlaceholder
+            countLabel.text = "0/\(maxLenghtTitle)"
+            prioritySegment.selectedSegmentIndex = 2
+            dateFormatter.dateFormat = "YYYY-MM-dd"
+            let dateFromVCStr = dateFormatter.string(from: dateFromVC)
+            let todayStr = dateFormatter.string(from: today)
+            if dateFromVCStr == todayStr {
+                dedlineDatePicker.minimumDate = calendar.date(byAdding: .minute, value: 1, to: today)
+            }
+            dedlineDatePicker.date = calendar.date(bySettingHour: 23, minute: 59, second: 0, of: dateFromVC) ?? today
+            descrTextView.textColor = .lightGray
+            descrTextView.text = descrPlaceholder
+        }
+    }
+    
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+    }
+    
+    
+    @objc func hideAllKeyboard() {
+        view.endEditing(true)
     }
     
     
@@ -49,50 +96,48 @@ class TaskViewController: UIViewController {
         dateFormatter.dateFormat = "MMMM dd"
         navigationItem.title = dateFormatter.string(from: date)
     }
-        
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-    }
-
     
-    func setViews() {
-        titleTextField.delegate = self
-        titleTextField.placeholder = titlePlaceholder
-        titleTextField.clearButtonMode = .always
+    
+    private func alertNoTitle() {
+        let alert = UIAlertController(title: "Error", message: "Please enter task title", preferredStyle: .alert)
+        titleTextField.layer.cornerRadius = 5
+        titleTextField.layer.borderWidth = 2
+        titleTextField.layer.borderColor = UIColor.red.cgColor
+        present(alert, animated: true)
         
-        countLabel.text = "0/\(maxLenghtTitle)"
-        
-        prioritySegment.selectedSegmentIndex = 2
-            
-        dateFormatter.dateFormat = "YYYY-MM-dd"
-        let dateFromVCStr = dateFormatter.string(from: dateFromVC)
-        let todayStr = dateFormatter.string(from: today)
-        if dateFromVCStr == todayStr {
-            dedlineDatePicker.minimumDate = calendar.date(byAdding: .minute, value: 1, to: today)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.titleTextField.layer.borderWidth = 0
+            alert.dismiss(animated: true)
         }
-        dedlineDatePicker.date = calendar.date(bySettingHour: 23, minute: 59, second: 0, of: today) ?? today
-        
-        descrTextView.delegate = self
-        descrTextView.textColor = .lightGray
-        descrTextView.text = descrPlaceholder
-        descrTextView.layer.borderColor = UIColor.lightGray.cgColor
-        descrTextView.layer.borderWidth = 2
-        descrTextView.layer.cornerRadius = 5
-        
-        let tapOnClearScreen = UITapGestureRecognizer(target: self, action: #selector(hideAllKeyboard))
-        view.addGestureRecognizer(tapOnClearScreen)
-    }
-    
-    
-    @objc func hideAllKeyboard() {
-        view.endEditing(true)
     }
     
     
     @IBAction func saveButton(_ sender: Any) {
+        guard let title = titleTextField.text, title != "" else { alertNoTitle()
+            return }
         
+        let priority = prioritySegment.selectedSegmentIndex
+        let date = dedlineDatePicker.date
+        var desctipt = ""
+        
+        if descrTextView.text != descrPlaceholder, !descrTextView.text.isEmpty {
+            desctipt = descrTextView.text
+        }
+        
+        let alert = UIAlertController(title: "Save task", message: "Are you sure?", preferredStyle: .alert)
+        let actionCancel = UIAlertAction(title: "Cancel", style: .cancel)
+        let actionOK = UIAlertAction(title: "Ok", style: .default) { [weak self] _ in
+            CoreDataManager.shared.UpdateOrCreateTask(title: title,
+                                                      ptiority: priority,
+                                                      dedline: date,
+                                                      descript: desctipt,
+                                                      taskEntity: self?.task)
+            self?.navigationController?.popViewController(animated: true)
+        }
+        
+        alert.addAction(actionCancel)
+        alert.addAction(actionOK)
+        self.present(alert, animated: true)
     }
     
 }

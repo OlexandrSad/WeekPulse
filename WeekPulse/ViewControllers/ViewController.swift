@@ -7,6 +7,7 @@
 
 import UIKit
 import LUNSegmentedControl
+import CoreData
 
 class ViewController: UIViewController {
 
@@ -17,9 +18,16 @@ class ViewController: UIViewController {
         static let heightCell: CGFloat = 70
         static let backButtonTitle = "Back"
         static let nibNameForCell = "TaskTableViewCell"
-        static let taskCellId = "TaskCell"
+        static let cellId = "TaskCell"
+        static let sectionCurrent = "Current"
+        static let sectionDone = "Done"
+        static let sectionEmpty = "There are no tasks yet"
         static let segueToTaskVC = "ToTaskVC"
+        static let entityName = "TaskEntity"
+        static let sortDescriptor = "dedline"
     }
+    
+    var countSavedObjects: Int?
     
     let dateFormatter = DateFormatter()
     let today = Date()
@@ -27,12 +35,27 @@ class ViewController: UIViewController {
     var dateComponent = DateComponents()
     var dateForTaskVC = Date()
     
+    lazy var fetchedResultController = CoreDataManager.shared.fetchedResultController(entityName: Constants.entityName,
+                                                                                      sortDescriptor: Constants.sortDescriptor,
+                                                                                      date: dateForTaskVC)
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setTable()
         setSegment()
         setTitleVC()
+        
+        fetchedResultController.delegate = self
+        do {
+            try fetchedResultController.performFetch()
+        } catch {
+            print("Error fetching data: \(error.localizedDescription)")
+        }
+        
+        if let objects = fetchedResultController.fetchedObjects {
+            countSavedObjects = objects.count
+        }
         
         navigationItem.backButtonTitle = Constants.backButtonTitle
     }
@@ -42,7 +65,7 @@ class ViewController: UIViewController {
         tasksTable.delegate = self
         tasksTable.dataSource = self
         let nib = UINib(nibName: Constants.nibNameForCell, bundle: nil)
-        tasksTable.register(nib, forCellReuseIdentifier: Constants.taskCellId)
+        tasksTable.register(nib, forCellReuseIdentifier: Constants.cellId)
     }
     
     
@@ -82,12 +105,35 @@ class ViewController: UIViewController {
     }
     
     
-    private func selectedDate(addDay: Int) {
+    private func setDateToTaskVC(addDay: Int) {
         dateComponent.day = addDay
         let newDate = calendar.date(byAdding: dateComponent, to: today)
         
         if let date = newDate {
             dateForTaskVC = date
+        }
+    }
+    
+    
+    private func performNewFetch(for dayOfWeek: Int) {
+        dateComponent.day = dayOfWeek
+        let newDate = calendar.date(byAdding: dateComponent, to: today)
+        
+        guard let choosedDate = newDate else { return }
+        let startOfDay = Calendar.current.startOfDay(for: choosedDate)
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)
+        
+        if let endOfDay = endOfDay {
+            fetchedResultController.fetchRequest.predicate = NSPredicate(format: "dedline >= %@ AND dedline < %@", startOfDay as CVarArg, endOfDay as CVarArg)
+            do {
+                try fetchedResultController.performFetch()
+                if let objects = fetchedResultController.fetchedObjects {
+                    countSavedObjects = objects.count
+                }
+                tasksTable.reloadData()
+            } catch {
+                print("Error fetching data: \(error.localizedDescription)")
+            }
         }
     }
     
@@ -146,7 +192,8 @@ extension ViewController: LUNSegmentedControlDelegate, LUNSegmentedControlDataSo
     
     func segmentedControl(_ segmentedControl: LUNSegmentedControl!, didChangeStateFromStateAt fromIndex: Int, toStateAt toIndex: Int) {
         setTitleVC(addDay: toIndex)
-        selectedDate(addDay: toIndex)
+        setDateToTaskVC(addDay: toIndex)
+        performNewFetch(for: toIndex)
     }
     
 }
@@ -154,20 +201,117 @@ extension ViewController: LUNSegmentedControlDelegate, LUNSegmentedControlDataSo
 
 // MARK: - UITableViewDelegate-DataSource
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
-   
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if let sectionsCount = fetchedResultController.sections?.count, sectionsCount > 0 {
+            return sectionsCount
+        } else {
+            return 1
+        }
+    }
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        if let sectionsInfo = fetchedResultController.sections, sectionsInfo.count > 0 {
+            return sectionsInfo[section].numberOfObjects
+        } else {
+            return 0
+        }
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.taskCellId) as! TaskTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellId) as! TaskTableViewCell
+        let taskEntity = fetchedResultController.object(at: indexPath) as! TaskEntity
+        cell.taskEntity = taskEntity
         return cell
     }
     
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constants.heightCell
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if let sectionInfo = fetchedResultController.sections, !sectionInfo.isEmpty {
+            return sectionInfo[section].name == "0" ? Constants.sectionDone : Constants.sectionCurrent
+        } else {
+            return Constants.sectionEmpty
+        }
+    }
+    
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let task = fetchedResultController.object(at: indexPath) as! TaskEntity
+            CoreDataManager.shared.viewContex.delete(task)
+            CoreDataManager.shared.saveContext()
+        }
+    }
+    
+}
+
+
+// MARK: - NSFetchedResultsControllerDelegate
+extension ViewController: NSFetchedResultsControllerDelegate {
+ 
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tasksTable.beginUpdates()
+    }
+    
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        
+        switch type {
+        case .insert:
+            
+            if let countObjects = countSavedObjects, countObjects > 0 {
+                tasksTable.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+            } else {
+                tasksTable.reloadSections(IndexSet(integer: sectionIndex), with: .automatic)
+            }
+            
+        case .update:
+            tasksTable.reloadData()
+        case .move:
+            tasksTable.reloadData()
+            
+        case .delete:
+            tasksTable.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+            
+            if let objects =  fetchedResultController.fetchedObjects, objects.count == 0 {
+                tasksTable.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+            }
+        default:
+            break
+        }
+    }
+    
+
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        switch type {
+        case .insert:
+            if let indexPath = newIndexPath {
+                tasksTable.insertRows(at: [indexPath], with: .automatic)
+            }
+        case .update:
+            if let indexPath = indexPath {
+                tasksTable.reloadRows(at: [indexPath], with: .automatic)
+            }
+        case .move:
+            if let indexPath = indexPath, let newIndexPath = newIndexPath {
+                tasksTable.deleteRows(at: [indexPath], with: .automatic)
+                tasksTable.insertRows(at: [newIndexPath], with: .automatic)
+            }
+        case .delete:
+            if let indexPath = indexPath {
+                tasksTable.deleteRows(at: [indexPath], with: .automatic)
+            }
+        default: break
+        }
+    }
+    
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        countSavedObjects = fetchedResultController.fetchedObjects?.count
+        tasksTable.endUpdates()
     }
     
 }

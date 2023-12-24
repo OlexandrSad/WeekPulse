@@ -16,10 +16,35 @@ class TaskTableViewCell: UITableViewCell {
     
     private let colorPriorityView: [UIColor] = [.green, .yellow, .red, .systemGray3]
     
+    var taskEntity: TaskEntity? {
+        didSet {
+            setInCell(taskEntity: taskEntity)
+        }
+    }
+    
+    private let dateFormatter = DateFormatter()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        setPriorityView(taskIsOn: true, priority: 2)
     }
+    
+    
+    private func setInCell(taskEntity: TaskEntity?) {
+        guard let task = taskEntity, let date = task.dedline else { return }
+        titleLabel.text = task.title
+        
+        let colorForPriority = colorPriorityView[Int(task.priority)]
+        priorityView.backgroundColor = colorForPriority
+
+        dateFormatter.dateFormat = "HH:mm"
+        dedlineLabel.text = dateFormatter.string(from: date)
+         
+        isOnSwitch.isOn = task.isOn
+        
+        let index = Int(task.priority)
+        setPriorityView(taskIsOn: task.isOn, priority: index)
+    }
+    
     
     private func setPriorityView(taskIsOn: Bool, priority: Int) {
         priorityView.layer.cornerRadius = 15
@@ -41,4 +66,8 @@ class TaskTableViewCell: UITableViewCell {
         }
     }
     
+    @IBAction func isOnTaskSwitch(_ sender: UISwitch) {
+        taskEntity?.isOn = sender.isOn
+        CoreDataManager.shared.saveContext()
+    }
 }

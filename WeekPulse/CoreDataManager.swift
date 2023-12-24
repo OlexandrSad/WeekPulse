@@ -72,15 +72,15 @@ class CoreDataManager {
     }
     
     
-    func fetchedResultController(entityName: String, date: Date, sortDescriptor: String) -> NSFetchedResultsController<NSFetchRequestResult> {
+    func fetchedResultController(entityName: String, sortDescriptor: String, date: Date) -> NSFetchedResultsController<NSFetchRequestResult> {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         let startOfDay = Calendar.current.startOfDay(for: date)
         let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)
         if let endOfDay = endOfDay {
             fetchRequest.predicate = NSPredicate(format: "dedline >= %@ AND dedline < %@", startOfDay as CVarArg, endOfDay as CVarArg)
         }
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: sortDescriptor, ascending: false),
-                                        NSSortDescriptor(key: "isOn", ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "isOn", ascending: false),
+                                        NSSortDescriptor(key: sortDescriptor, ascending: true)]
         let sectionNameKeyPath = "isOn"
         let fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                  managedObjectContext: CoreDataManager.shared.viewContex,
