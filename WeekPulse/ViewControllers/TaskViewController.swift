@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TaskViewController: UIViewController {
+class TaskViewController: UIViewController, ToTaskVCProtocol {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var prioritySegment: UISegmentedControl!
@@ -38,7 +38,6 @@ class TaskViewController: UIViewController {
         
         let tapOnClearScreen = UITapGestureRecognizer(target: self, action: #selector(hideAllKeyboard))
         view.addGestureRecognizer(tapOnClearScreen)
-        print(task)
     }
 
     

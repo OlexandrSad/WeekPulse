@@ -72,7 +72,7 @@ class CoreDataManager {
     }
     
     
-    func fetchedResultController(entityName: String, sortDescriptor: String, date: Date) -> NSFetchedResultsController<NSFetchRequestResult> {
+    func fetchedResultController(entityName: String, contex: NSManagedObjectContext, sortDescriptor: String, date: Date) -> NSFetchedResultsController<NSFetchRequestResult> {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         let startOfDay = Calendar.current.startOfDay(for: date)
         let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)
@@ -83,9 +83,35 @@ class CoreDataManager {
                                         NSSortDescriptor(key: sortDescriptor, ascending: true)]
         let sectionNameKeyPath = "isOn"
         let fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                 managedObjectContext: CoreDataManager.shared.viewContex,
+                                                                 managedObjectContext: contex,
                                                                  sectionNameKeyPath: sectionNameKeyPath,
                                                                  cacheName: nil)
         return fetchedResultController
+    }
+    
+    
+    func checkExpiredTask(entityName: String, contex: NSManagedObjectContext, today: Date, chosedDay: Date) {
+        let startOfToday = Calendar.current.startOfDay(for: today)
+        let startOfChosedDay = Calendar.current.startOfDay(for: chosedDay)
+        guard startOfToday == startOfChosedDay else { return }
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        fetchRequest.predicate = NSPredicate(format: "dedline < %@", startOfToday as CVarArg)
+        
+        do {
+            guard let tasks = try contex.fetch(fetchRequest) as? [TaskEntity], !tasks.isEmpty else { return }
+            
+            for task in tasks {
+                if task.isOn {
+                    task.dedline = startOfToday
+                } else {
+                    contex.delete(task)
+                }
+            }
+            
+            saveContext()
+        } catch {
+            print("Error fetching in checkExpiredTask: \(error.localizedDescription)")
+        }
     }
 }

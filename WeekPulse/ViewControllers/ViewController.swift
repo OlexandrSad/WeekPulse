@@ -10,7 +10,7 @@ import LUNSegmentedControl
 import CoreData
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var segment: LUNSegmentedControl!
     @IBOutlet weak var tasksTable: UITableView!
     
@@ -29,13 +29,15 @@ class ViewController: UIViewController {
     
     var countSavedObjects: Int?
     
+    let coreDataManager = CoreDataManager.shared
     let dateFormatter = DateFormatter()
     let today = Date()
     let calendar = Calendar.current
     var dateComponent = DateComponents()
     var dateForTaskVC = Date()
     
-    lazy var fetchedResultController = CoreDataManager.shared.fetchedResultController(entityName: Constants.entityName,
+    lazy var fetchedResultController = coreDataManager.fetchedResultController(entityName: Constants.entityName,
+                                                                                      contex: coreDataManager.viewContex,
                                                                                       sortDescriptor: Constants.sortDescriptor,
                                                                                       date: dateForTaskVC)
     
@@ -47,10 +49,11 @@ class ViewController: UIViewController {
         setTitleVC()
         
         fetchedResultController.delegate = self
+        coreDataManager.checkExpiredTask(entityName: Constants.entityName, contex: coreDataManager.viewContex, today: today, chosedDay: dateForTaskVC)
         do {
             try fetchedResultController.performFetch()
         } catch {
-            print("Error fetching data: \(error.localizedDescription)")
+            print("Error fetching data in viewDidLoad: \(error.localizedDescription)")
         }
         
         if let objects = fetchedResultController.fetchedObjects {
@@ -132,22 +135,24 @@ class ViewController: UIViewController {
                 }
                 tasksTable.reloadData()
             } catch {
-                print("Error fetching data: \(error.localizedDescription)")
+                print("Error fetching data in performNewFetch: \(error.localizedDescription)")
             }
         }
     }
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let task = fetchedResultController.object(at: indexPath)
-        performSegue(withIdentifier: Constants.segueToTaskVC, sender: task)
+        let task = fetchedResultController.object(at: indexPath) as? TaskEntity
+        if let safeTask = task, safeTask.isOn {
+            performSegue(withIdentifier: Constants.segueToTaskVC, sender: safeTask)
+        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.segueToTaskVC,
-           let taskVC = segue.destination as? TaskViewController {
+           var taskVC = segue.destination as? ToTaskVCProtocol {
             taskVC.dateFromVC = dateForTaskVC
             taskVC.task = sender as? TaskEntity
         }
@@ -240,8 +245,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let task = fetchedResultController.object(at: indexPath) as! TaskEntity
-            CoreDataManager.shared.viewContex.delete(task)
-            CoreDataManager.shared.saveContext()
+            coreDataManager.viewContex.delete(task)
+            coreDataManager.saveContext()
         }
     }
     
