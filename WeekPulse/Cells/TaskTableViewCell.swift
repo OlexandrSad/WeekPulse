@@ -14,15 +14,17 @@ class TaskTableViewCell: UITableViewCell {
     @IBOutlet weak var dedlineLabel: UILabel!
     @IBOutlet weak var isOnSwitch: UISwitch!
     
+    let animator = Animator()
+    private let dateFormatter = DateFormatter()
     private let colorPriorityView: [UIColor] = [.green, .yellow, .red, .systemGray3]
     
     var taskEntity: TaskEntity? {
         didSet {
             setInCell(taskEntity: taskEntity)
+            animator.makeAnimation(task: taskEntity, label: dedlineLabel, view: priorityView)
         }
     }
     
-    private let dateFormatter = DateFormatter()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -66,8 +68,13 @@ class TaskTableViewCell: UITableViewCell {
         }
     }
     
+
     @IBAction func isOnTaskSwitch(_ sender: UISwitch) {
         taskEntity?.isOn = sender.isOn
         CoreDataManager.shared.saveContext()
+        if !sender.isOn {
+            dedlineLabel.layer.removeAllAnimations()
+            priorityView.layer.removeAllAnimations()
+        }
     }
 }

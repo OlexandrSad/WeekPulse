@@ -34,12 +34,16 @@ class ViewController: UIViewController {
     let today = Date()
     let calendar = Calendar.current
     var dateComponent = DateComponents()
-    var dateForTaskVC = Date()
+    var dateForTaskVC = Date() {
+        didSet {
+            restartAnimationForVisibleCells()
+        }
+    }
     
     lazy var fetchedResultController = coreDataManager.fetchedResultController(entityName: Constants.entityName,
                                                                                       contex: coreDataManager.viewContex,
                                                                                       sortDescriptor: Constants.sortDescriptor,
-                                                                                      date: dateForTaskVC)
+                                                                               date: dateForTaskVC)
     
     
     override func viewDidLoad() {
@@ -61,6 +65,23 @@ class ViewController: UIViewController {
         }
         
         navigationItem.backButtonTitle = Constants.backButtonTitle
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        restartAnimationForVisibleCells()
+    }
+
+    
+    private func restartAnimationForVisibleCells() {
+        if let visibleCells = tasksTable.visibleCells as? [TaskTableViewCell] {
+            for cell in visibleCells {
+                if let task = cell.taskEntity {
+                    cell.animator.makeAnimation(task: task, label: cell.dedlineLabel, view: cell.priorityView)
+                }
+            }
+        }
     }
     
     
