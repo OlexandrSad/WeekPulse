@@ -77,4 +77,5 @@ class TaskTableViewCell: UITableViewCell {
             priorityView.layer.removeAllAnimations()
         }
     }
+    
 }

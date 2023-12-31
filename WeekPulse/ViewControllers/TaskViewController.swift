@@ -31,6 +31,7 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     var dateFromVC = Date()
     var task: TaskEntity?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setViews(task: task)
@@ -64,7 +65,7 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
             let dateFromVCStr = dateFormatter.string(from: dateFromVC)
             let todayStr = dateFormatter.string(from: today)
             if dateFromVCStr == todayStr {
-                dedlineDatePicker.minimumDate = calendar.date(byAdding: .minute, value: 1, to: today)
+                dedlineDatePicker.minimumDate = calendar.date(byAdding: .minute, value: 5, to: today)
             }
             dedlineDatePicker.date = calendar.date(bySettingHour: 23, minute: 59, second: 0, of: dateFromVC) ?? today
             descrTextView.textColor = .lightGray
@@ -175,6 +176,7 @@ extension TaskViewController: UITextFieldDelegate {
         counterTitleChars = 0
         return true
     }
+    
 }
 
 
@@ -195,4 +197,5 @@ extension TaskViewController: UITextViewDelegate {
             textView.textColor = .lightGray
         }
     }
+    
 }
