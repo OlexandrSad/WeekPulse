@@ -98,22 +98,24 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     }
     
     
-    private func alertNoTitle() {
+    private func alertNoTitle(view: UIView) {
+        let animator = Animator()
         let alert = UIAlertController(title: "Error", message: "Please enter task title", preferredStyle: .alert)
-        titleTextField.layer.cornerRadius = 5
-        titleTextField.layer.borderWidth = 2
-        titleTextField.layer.borderColor = UIColor.red.cgColor
+        view.layer.cornerRadius = 5
+        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.red.cgColor
         present(alert, animated: true)
+        animator.shakeAnimation(view: view)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            self.titleTextField.layer.borderWidth = 0
+            view.layer.borderWidth = 0
             alert.dismiss(animated: true)
         }
     }
     
     
     @IBAction func saveButton(_ sender: Any) {
-        guard let title = titleTextField.text, title != "" else { alertNoTitle()
+        guard let title = titleTextField.text, title != "" else { alertNoTitle(view: titleTextField)
             return }
         
         let priority = prioritySegment.selectedSegmentIndex
