@@ -34,11 +34,7 @@ class ViewController: UIViewController {
     let today = Date()
     let calendar = Calendar.current
     var dateComponent = DateComponents()
-    var dateForTaskVC = Date() {
-        didSet {
-            restartAnimationForVisibleCells()
-        }
-    }
+    var dateForTaskVC = Date() 
     
     lazy var fetchedResultController = coreDataManager.fetchedResultController(entityName: Constants.entityName,
                                                                                       contex: coreDataManager.viewContex,

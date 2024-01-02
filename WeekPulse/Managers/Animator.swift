@@ -9,10 +9,8 @@ import Foundation
 import UIKit
 
 class Animator {
-    
     func makeAnimation(task: TaskEntity?, label: UILabel, view: UIView) {
         guard let task = task, let taskDedline = task.dedline else { return }
-        
         if task.isOn {
             let today = Date()
             guard taskDedline < today  else { return }
@@ -29,8 +27,6 @@ class Animator {
                     label.transform = CGAffineTransform(scaleX: 1, y: 1)
                     view.transform = CGAffineTransform(scaleX: 1, y: 1)
                 } else {
-                    label.layer.removeAllAnimations()
-                    view.layer.removeAllAnimations()
                     self.makeAnimation(task: task, label: label, view: view)
                 }
             }

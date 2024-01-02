@@ -8,7 +8,7 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    var sceneDidResign = false
     var window: UIWindow?
     
 
@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     
     func sceneDidBecomeActive(_ scene: UIScene) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene), sceneDidResign == true else { return }
         
         if let tabBarController = windowScene.windows.first?.rootViewController as? UITabBarController,
            let selectedNavController = tabBarController.selectedViewController as? UINavigationController,
@@ -32,6 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
+        sceneDidResign = true
     }
 
     

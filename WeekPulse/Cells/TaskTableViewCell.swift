@@ -21,7 +21,13 @@ class TaskTableViewCell: UITableViewCell {
     var taskEntity: TaskEntity? {
         didSet {
             setInCell(taskEntity: taskEntity)
-            animator.makeAnimation(task: taskEntity, label: dedlineLabel, view: priorityView)
+            if let task = taskEntity, task.isOn {
+                animator.makeAnimation(task: taskEntity, label: dedlineLabel, view: priorityView)
+            } else {
+                dedlineLabel.layer.removeAllAnimations()
+                priorityView.layer.removeAllAnimations()
+            }
+            
         }
     }
     
@@ -72,10 +78,6 @@ class TaskTableViewCell: UITableViewCell {
     @IBAction func isOnTaskSwitch(_ sender: UISwitch) {
         taskEntity?.isOn = sender.isOn
         CoreDataManager.shared.saveContext()
-        if !sender.isOn {
-            dedlineLabel.layer.removeAllAnimations()
-            priorityView.layer.removeAllAnimations()
-        }
     }
     
 }
