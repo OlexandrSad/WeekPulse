@@ -74,7 +74,7 @@ class ViewController: UIViewController {
     }
 
     
-    private func restartAnimationForVisibleCells() {
+    func restartAnimationForVisibleCells() {
         if let visibleCells = tasksTable.visibleCells as? [TaskTableViewCell] {
             for cell in visibleCells {
                 if let task = cell.taskEntity {

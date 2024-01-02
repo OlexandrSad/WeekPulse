@@ -22,8 +22,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     
     func sceneDidBecomeActive(_ scene: UIScene) {
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        if let tabBarController = windowScene.windows.first?.rootViewController as? UITabBarController,
+           let selectedNavController = tabBarController.selectedViewController as? UINavigationController,
+           let rootViewController = selectedNavController.viewControllers.first as? ViewController {
+            rootViewController.restartAnimationForVisibleCells()
+        }
     }
-
     
     func sceneWillResignActive(_ scene: UIScene) {
     }
