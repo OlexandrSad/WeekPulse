@@ -15,7 +15,7 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     @IBOutlet weak var descrTextView: UITextView!
     @IBOutlet weak var countLabel: UILabel!
     
-    let maxLenghtTitle = 30
+    let maxLenghtTitle = 40
     let titlePlaceholder = "Enter task title"
     let descrPlaceholder = "1. Enter task description\n2.\n3.\n..."
  
@@ -43,6 +43,7 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
 
     
     func setViews(task: TaskEntity?) {
+        titleTextField.becomeFirstResponder()
         titleTextField.delegate = self
         titleTextField.clearButtonMode = .always
         descrTextView.delegate = self
@@ -88,7 +89,7 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     private func setTitleVC(date: Date) {
         let weekDay = calendar.component(.weekday, from: date)
         let weekDayString = dateFormatter.weekdaySymbols[weekDay - 1]
-        
+
         if weekDayString == "Saturday" || weekDayString == "Sunday" {
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.red]
         }
@@ -120,6 +121,8 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
         
         let priority = prioritySegment.selectedSegmentIndex
         let date = dedlineDatePicker.date
+        dateFormatter.dateFormat = "YYYY-MM-dd (EEEE)"
+        let dedlineStr = dateFormatter.string(from: date)
         var desctipt = ""
         
         if descrTextView.text != descrPlaceholder, !descrTextView.text.isEmpty {
@@ -132,6 +135,7 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
             CoreDataManager.shared.UpdateOrCreateTask(title: title,
                                                       ptiority: priority,
                                                       dedline: date,
+                                                      dedlineStr: dedlineStr,
                                                       descript: desctipt,
                                                       taskEntity: self?.task)
             self?.navigationController?.popViewController(animated: true)
@@ -198,6 +202,16 @@ extension TaskViewController: UITextViewDelegate {
             textView.text = descrPlaceholder
             textView.textColor = .lightGray
         }
+    }
+    
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        guard let currentText = textView.text else { return true }
+    
+        let maxLength = 500
+        
+        let newText = (currentText as NSString).replacingCharacters(in: range, with: text)
+        return newText.count <= maxLength
     }
     
 }

@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23C71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="TaskEntity" representedClassName="TaskEntity" syncable="YES">
         <attribute name="dedline" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dedlineStr" optional="YES" attributeType="String"/>
         <attribute name="descript" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="isOn" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>

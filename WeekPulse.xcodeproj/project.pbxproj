@@ -12,6 +12,9 @@
 		118D33192B39CF1B009C8B0B /* ToTaskVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D33182B39CF1B009C8B0B /* ToTaskVCProtocol.swift */; };
 		118D33252B407C10009C8B0B /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D33242B407C10009C8B0B /* Animator.swift */; };
 		118D33272B4168EF009C8B0B /* NotificationCentr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D33262B4168EF009C8B0B /* NotificationCentr.swift */; };
+		118D332A2B45C8CB009C8B0B /* AllTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D33292B45C8CB009C8B0B /* AllTasksViewController.swift */; };
+		118D332F2B470518009C8B0B /* TasksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D332D2B470518009C8B0B /* TasksTableViewCell.swift */; };
+		118D33302B470518009C8B0B /* TasksTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 118D332E2B470518009C8B0B /* TasksTableViewCell.xib */; };
 		11F89E3A2B0E62C900EBB9AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E392B0E62C900EBB9AF /* AppDelegate.swift */; };
 		11F89E3C2B0E62C900EBB9AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E3B2B0E62C900EBB9AF /* SceneDelegate.swift */; };
 		11F89E3E2B0E62C900EBB9AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E3D2B0E62C900EBB9AF /* ViewController.swift */; };
@@ -55,6 +58,9 @@
 		118D33182B39CF1B009C8B0B /* ToTaskVCProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToTaskVCProtocol.swift; sourceTree = "<group>"; };
 		118D33242B407C10009C8B0B /* Animator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
 		118D33262B4168EF009C8B0B /* NotificationCentr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentr.swift; sourceTree = "<group>"; };
+		118D33292B45C8CB009C8B0B /* AllTasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTasksViewController.swift; sourceTree = "<group>"; };
+		118D332D2B470518009C8B0B /* TasksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksTableViewCell.swift; sourceTree = "<group>"; };
+		118D332E2B470518009C8B0B /* TasksTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TasksTableViewCell.xib; sourceTree = "<group>"; };
 		11F89E362B0E62C900EBB9AF /* WeekPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeekPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11F89E392B0E62C900EBB9AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		11F89E3B2B0E62C900EBB9AF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -192,6 +198,7 @@
 			children = (
 				11F89E3D2B0E62C900EBB9AF /* ViewController.swift */,
 				11F89E772B11056800EBB9AF /* TaskViewController.swift */,
+				118D33292B45C8CB009C8B0B /* AllTasksViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -201,6 +208,8 @@
 			children = (
 				11F89E7F2B123B6000EBB9AF /* TaskTableViewCell.swift */,
 				11F89E802B123B6000EBB9AF /* TaskTableViewCell.xib */,
+				118D332D2B470518009C8B0B /* TasksTableViewCell.swift */,
+				118D332E2B470518009C8B0B /* TasksTableViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -349,6 +358,7 @@
 				11F89E492B0E62CA00EBB9AF /* LaunchScreen.storyboard in Resources */,
 				11F89E462B0E62CA00EBB9AF /* Assets.xcassets in Resources */,
 				11F89E412B0E62C900EBB9AF /* Main.storyboard in Resources */,
+				118D33302B470518009C8B0B /* TasksTableViewCell.xib in Resources */,
 				11F89E822B123B6000EBB9AF /* TaskTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -483,9 +493,11 @@
 				11F89E3A2B0E62C900EBB9AF /* AppDelegate.swift in Sources */,
 				11F89E812B123B6000EBB9AF /* TaskTableViewCell.swift in Sources */,
 				11F89E782B11056800EBB9AF /* TaskViewController.swift in Sources */,
+				118D332F2B470518009C8B0B /* TasksTableViewCell.swift in Sources */,
 				11F89E932B125FF000EBB9AF /* CoreDataManager.swift in Sources */,
 				11F89E3C2B0E62C900EBB9AF /* SceneDelegate.swift in Sources */,
 				118D33192B39CF1B009C8B0B /* ToTaskVCProtocol.swift in Sources */,
+				118D332A2B45C8CB009C8B0B /* AllTasksViewController.swift in Sources */,
 				118D33272B4168EF009C8B0B /* NotificationCentr.swift in Sources */,
 				118D33252B407C10009C8B0B /* Animator.swift in Sources */,
 				11F89E442B0E62C900EBB9AF /* WeekPulse.xcdatamodeld in Sources */,

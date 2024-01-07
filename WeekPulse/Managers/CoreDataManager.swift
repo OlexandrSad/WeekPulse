@@ -37,7 +37,7 @@ class CoreDataManager {
         }
     }
     
-    func UpdateOrCreateTask(title: String, ptiority: Int, dedline: Date, descript: String, taskEntity: TaskEntity?) {
+    func UpdateOrCreateTask(title: String, ptiority: Int, dedline: Date, dedlineStr: String, descript: String, taskEntity: TaskEntity?) {
         let notifiCentr = NotificationCentr()
         do {
             if let task = taskEntity, let id = task.id {
@@ -63,6 +63,7 @@ class CoreDataManager {
                 taskEntity.title = title
                 taskEntity.priority = Int16(ptiority)
                 taskEntity.dedline = dedline
+                taskEntity.dedlineStr = dedlineStr
                 taskEntity.isOn = true
                 taskEntity.descript = descript
                 taskEntity.id = UUID().uuidString
@@ -93,7 +94,22 @@ class CoreDataManager {
     }
     
     
+    func allFetchedResultController(entityName: String, contex: NSManagedObjectContext, sortDescriptor: String) -> NSFetchedResultsController<NSFetchRequestResult> {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        fetchRequest.predicate = NSPredicate(format: "isOn = true")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: sortDescriptor, ascending: true)]
+        let sectionNameKeyPath = "dedlineStr"
+        let fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                 managedObjectContext: contex,
+                                                                 sectionNameKeyPath: sectionNameKeyPath,
+                                                                 cacheName: nil)
+        return fetchedResultController
+    }
+    
+    
     func checkExpiredTask(entityName: String, contex: NSManagedObjectContext, today: Date, chosedDay: Date) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd"
         let startOfToday = Calendar.current.startOfDay(for: today)
         let startOfChosedDay = Calendar.current.startOfDay(for: chosedDay)
         guard startOfToday == startOfChosedDay else { return }
@@ -107,6 +123,7 @@ class CoreDataManager {
             for task in tasks {
                 if task.isOn {
                     task.dedline = startOfToday
+                    task.dedlineStr = dateFormatter.string(from: startOfToday)
                 } else {
                     contex.delete(task)
                 }
@@ -117,4 +134,5 @@ class CoreDataManager {
             print("Error fetching in checkExpiredTask: \(error.localizedDescription)")
         }
     }
+    
 }

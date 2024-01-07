@@ -37,8 +37,8 @@ class ViewController: UIViewController {
     var dateForTaskVC = Date() 
     
     lazy var fetchedResultController = coreDataManager.fetchedResultController(entityName: Constants.entityName,
-                                                                                      contex: coreDataManager.viewContex,
-                                                                                      sortDescriptor: Constants.sortDescriptor,
+                                                                               contex: coreDataManager.viewContex,
+                                                                               sortDescriptor: Constants.sortDescriptor,
                                                                                date: dateForTaskVC)
     
     
@@ -67,17 +67,6 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         restartAnimationForVisibleCells()
-    }
-
-    
-    func restartAnimationForVisibleCells() {
-        if let visibleCells = tasksTable.visibleCells as? [TaskTableViewCell] {
-            for cell in visibleCells {
-                if let task = cell.taskEntity {
-                    cell.animator.makeAnimation(task: task, label: cell.dedlineLabel, view: cell.priorityView)
-                }
-            }
-        }
     }
     
     
@@ -153,6 +142,17 @@ class ViewController: UIViewController {
                 tasksTable.reloadData()
             } catch {
                 print("Error fetching data in performNewFetch: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    
+    func restartAnimationForVisibleCells() {
+        if let visibleCells = tasksTable.visibleCells as? [TaskTableViewCell] {
+            for cell in visibleCells {
+                if let task = cell.taskEntity {
+                    cell.animator.makeAnimation(task: task, label: cell.dedlineLabel, view: cell.priorityView)
+                }
             }
         }
     }

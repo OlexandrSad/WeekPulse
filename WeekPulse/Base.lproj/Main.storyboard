@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -80,7 +81,7 @@
         <!--Task View Controller-->
         <scene sceneID="KRd-n3-KCU">
             <objects>
-                <viewController id="7KD-UZ-ra5" customClass="TaskViewController" customModule="WeekPulse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TaskVC" id="7KD-UZ-ra5" customClass="TaskViewController" customModule="WeekPulse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Stg-9V-twW">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -138,9 +139,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="6rJ-c7-VoJ">
-                                <rect key="frame" x="285" y="259" width="100" height="36"/>
+                                <rect key="frame" x="135" y="259" width="250" height="36"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="p9S-H4-2eU"/>
+                                    <constraint firstAttribute="width" constant="250" id="p9S-H4-2eU"/>
                                 </constraints>
                             </datePicker>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="siA-5J-D5l">
@@ -225,7 +226,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="56q-hY-1kX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2801" y="4"/>
+            <point key="canvasLocation" x="2800.7633587786258" y="3.5211267605633805"/>
         </scene>
         <!--Week-->
         <scene sceneID="ih5-NZ-iCu">
@@ -258,7 +259,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="bZd-IB-9o6" kind="relationship" relationship="viewControllers" id="5nJ-JQ-Ao0"/>
-                        <segue destination="xUp-ev-DxM" kind="relationship" relationship="viewControllers" id="ddD-vy-rlT"/>
+                        <segue destination="Kz3-L8-PB0" kind="relationship" relationship="viewControllers" id="ddD-vy-rlT"/>
                         <segue destination="nYd-jy-hsP" kind="relationship" relationship="viewControllers" id="oww-NA-fTp"/>
                     </connections>
                 </tabBarController>
@@ -266,21 +267,49 @@
             </objects>
             <point key="canvasLocation" x="353" y="4"/>
         </scene>
-        <!--All tasks-->
+        <!--All Tasks View Controller-->
         <scene sceneID="vCu-3p-vW2">
             <objects>
-                <viewController id="xUp-ev-DxM" sceneMemberID="viewController">
+                <viewController id="xUp-ev-DxM" customClass="AllTasksViewController" customModule="WeekPulse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5zZ-t8-mqe">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="lgO-85-vKz">
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="kbe-Sm-eCa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="kbe-Sm-eCa" firstAttribute="bottom" secondItem="lgO-85-vKz" secondAttribute="bottom" id="8GK-sz-wZv"/>
+                            <constraint firstItem="lgO-85-vKz" firstAttribute="top" secondItem="kbe-Sm-eCa" secondAttribute="top" id="KfU-QF-g2L"/>
+                            <constraint firstItem="lgO-85-vKz" firstAttribute="leading" secondItem="kbe-Sm-eCa" secondAttribute="leading" id="dJt-sl-EkD"/>
+                            <constraint firstItem="kbe-Sm-eCa" firstAttribute="trailing" secondItem="lgO-85-vKz" secondAttribute="trailing" id="mGE-8v-5bA"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="All tasks" image="tablecells" catalog="system" id="Va4-ze-Ugs"/>
+                    <navigationItem key="navigationItem" id="hox-9W-fY1">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="4xO-mD-c1f">
+                            <connections>
+                                <action selector="toggleEditingMode:" destination="xUp-ev-DxM" id="Nbi-3q-uKr"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="aey-gb-DGR">
+                            <imageReference key="image" image="plus.viewfinder" catalog="system" symbolScale="large"/>
+                            <connections>
+                                <segue destination="7KD-UZ-ra5" kind="show" identifier="FromAllToTaskVC" id="29S-mH-FrM"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="editButton" destination="4xO-mD-c1f" id="wWf-eq-wwK"/>
+                        <outlet property="tasksTable" destination="lgO-85-vKz" id="9SO-XO-xde"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iGi-dc-0lh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1242" y="732"/>
+            <point key="canvasLocation" x="1990" y="732"/>
         </scene>
         <!--Weather-->
         <scene sceneID="D5n-me-Ctg">
@@ -296,13 +325,36 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EB5-dR-nlT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1990" y="732"/>
+            <point key="canvasLocation" x="-384" y="732"/>
+        </scene>
+        <!--All tasks-->
+        <scene sceneID="q8Q-cH-cIr">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Kz3-L8-PB0" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="All tasks" image="tablecells" catalog="system" id="Va4-ze-Ugs"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mAB-6c-WnH">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="xUp-ev-DxM" kind="relationship" relationship="rootViewController" id="Ko2-FN-Ik4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sSy-TF-taT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1241.9847328244275" y="731.69014084507046"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="ebr-PA-yDK"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="gearshape" catalog="system" width="128" height="123"/>
         <image name="pencil.circle" catalog="system" width="128" height="123"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="plus.viewfinder" catalog="system" width="128" height="115"/>
         <image name="sun.horizon" catalog="system" width="128" height="79"/>
         <image name="tablecells" catalog="system" width="128" height="93"/>
         <systemColor name="labelColor">

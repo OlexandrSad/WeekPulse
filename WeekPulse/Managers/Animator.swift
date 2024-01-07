@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class Animator {
+    
     func makeAnimation(task: TaskEntity?, label: UILabel, view: UIView) {
         guard let task = task, let taskDedline = task.dedline else { return }
         if task.isOn {
