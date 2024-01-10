@@ -28,7 +28,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="WeekPulse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="ViewControllerID" id="BYZ-38-t0r" customClass="ViewController" customModule="WeekPulse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -139,9 +139,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="6rJ-c7-VoJ">
-                                <rect key="frame" x="135" y="259" width="250" height="36"/>
+                                <rect key="frame" x="185" y="259" width="200" height="36"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="250" id="p9S-H4-2eU"/>
+                                    <constraint firstAttribute="width" constant="200" id="p9S-H4-2eU"/>
                                 </constraints>
                             </datePicker>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="siA-5J-D5l">
@@ -161,10 +161,10 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today's weather" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bur-MC-tck">
-                                <rect key="frame" x="8" y="579" width="150" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weather" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bur-MC-tck">
+                                <rect key="frame" x="8" y="579" width="80" height="24"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="Yjd-nE-MwM"/>
+                                    <constraint firstAttribute="width" constant="80" id="Yjd-nE-MwM"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
@@ -222,6 +222,8 @@
                         <outlet property="descrTextView" destination="whs-f9-idR" id="4hN-Yh-pc3"/>
                         <outlet property="prioritySegment" destination="3Ef-Yb-flz" id="DFX-4m-WAi"/>
                         <outlet property="titleTextField" destination="drq-C6-dfR" id="zqI-Rw-bQx"/>
+                        <outlet property="weatherLabel" destination="bur-MC-tck" id="fLm-wE-Mqm"/>
+                        <outlet property="weatherView" destination="kOu-PM-6h6" id="sMP-8k-utc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="56q-hY-1kX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -270,7 +272,7 @@
         <!--All Tasks View Controller-->
         <scene sceneID="vCu-3p-vW2">
             <objects>
-                <viewController id="xUp-ev-DxM" customClass="AllTasksViewController" customModule="WeekPulse" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="AllTasksViewControllerID" id="xUp-ev-DxM" customClass="AllTasksViewController" customModule="WeekPulse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5zZ-t8-mqe">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

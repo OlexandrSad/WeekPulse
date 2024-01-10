@@ -15,6 +15,7 @@ class NotificationCentr {
     
     func requestAuthorization() {
         notificationCentr.requestAuthorization(options: [.alert, .badge, .sound]) { granded, error in
+            
             guard granded else { return }
             self.notificationCentr.getNotificationSettings { settings in
                 guard settings.authorizationStatus == .authorized else { return }
@@ -36,7 +37,6 @@ class NotificationCentr {
         let title = task.title?.prefix(10)
         
         guard let timeInterval = timeDifference.second, timeInterval > 0, let id = task.id, let title = title else { return }
-        
         let content = UNMutableNotificationContent()
         content.title = "Task \"\(String(describing: title))\""
         content.body = "will be expired in \(minutes) minutes"
@@ -44,6 +44,7 @@ class NotificationCentr {
         let trigger  = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(timeInterval), repeats: false)
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
         notificationCentr.add(request) { error in
+            
             if let error = error {
                 print("Error notification request \(String(describing: error.localizedDescription))")
             }

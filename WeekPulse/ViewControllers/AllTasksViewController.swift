@@ -79,18 +79,24 @@ class AllTasksViewController: UIViewController {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let task = fetchedResultController.object(at: indexPath) as? TaskEntity
         
-        guard let safeTask = task, safeTask.isOn, let dateForTaskVC = task?.dedline else { return }
-
-        if let taskVC = storyboard.instantiateViewController(withIdentifier: "TaskVC") as? TaskViewController {
-            taskVC.task = safeTask
-            taskVC.dateFromVC = dateForTaskVC
-            navigationController?.pushViewController(taskVC, animated: true)
+        if let safeTask = task {
+            performSegue(withIdentifier: "FromAllToTaskVC", sender: safeTask)
         }
-        
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "FromAllToTaskVC",
+           var taskVC = segue.destination as? ToTaskVCProtocol {
+            let task = sender as? TaskEntity
+            let dateForTaskVC = task?.dedline
+            taskVC.dateFromVC = dateForTaskVC
+            taskVC.task = task
+            taskVC.whoCreated = self.restorationIdentifier
+        }
     }
     
     
@@ -100,6 +106,31 @@ class AllTasksViewController: UIViewController {
     
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let task = fetchedResultController.object(at: sourceIndexPath) as? TaskEntity
+        
+        guard let sectionInfo = fetchedResultController.sections, let dedline = task?.dedline else { return }
+        let sectionName = sectionInfo[destinationIndexPath.section].name
+        task?.dedlineStr = sectionName
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let dedlineString = dateFormatter.string(from: dedline)
+        let components = dedlineString.components(separatedBy: " ")
+        let newDate = String(sectionName.prefix(10))
+        let updateDedlineString = newDate + " " + components[1]
+        task?.dedline = dateFormatter.date(from: updateDedlineString)
+        tasksTable.reloadData()
+        
+        guard let task = task,
+              let title = task.title,
+              let dedlineStr = task.dedlineStr,
+              let dedline = task.dedline,
+              let descript = task.descript else { return }
+        coreDataManager.UpdateOrCreateTask(title: title,
+                                           ptiority: Int(task.priority),
+                                           dedline: dedline,
+                                           dedlineStr: dedlineStr,
+                                           descript: descript,
+                                           taskEntity: task)
         
     }
     
@@ -165,7 +196,6 @@ extension AllTasksViewController: NSFetchedResultsControllerDelegate {
         
         switch type {
         case .insert:
-            
             if let countObjects = countSavedObjects, countObjects > 0 {
                 tasksTable.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
             } else {
@@ -175,7 +205,7 @@ extension AllTasksViewController: NSFetchedResultsControllerDelegate {
         case .delete:
             tasksTable.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
             
-            if let objects =  fetchedResultController.fetchedObjects, objects.count == 0 {
+            if let objects = fetchedResultController.fetchedObjects, objects.count == 0 {
                 tasksTable.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
             }
         default:
@@ -196,10 +226,8 @@ extension AllTasksViewController: NSFetchedResultsControllerDelegate {
                 tasksTable.reloadRows(at: [indexPath], with: .automatic)
             }
         case .move:
-            if let indexPath = indexPath {
+            if let indexPath = indexPath, let newIndexPath = newIndexPath {
                 tasksTable.deleteRows(at: [indexPath], with: .automatic)
-            }
-            if let newIndexPath = newIndexPath {
                 tasksTable.insertRows(at: [newIndexPath], with: .automatic)
             }
         case .delete:

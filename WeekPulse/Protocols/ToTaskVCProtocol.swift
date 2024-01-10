@@ -8,6 +8,7 @@
 import Foundation
 
 protocol ToTaskVCProtocol {
-    var dateFromVC: Date {get set}
-    var task: TaskEntity? {get set}
+    var dateFromVC: Date? { get set }
+    var task: TaskEntity? { get set }
+    var whoCreated: String? { get set }
 }

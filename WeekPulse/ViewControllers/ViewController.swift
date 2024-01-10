@@ -136,6 +136,7 @@ class ViewController: UIViewController {
             fetchedResultController.fetchRequest.predicate = NSPredicate(format: "dedline >= %@ AND dedline < %@", startOfDay as CVarArg, endOfDay as CVarArg)
             do {
                 try fetchedResultController.performFetch()
+                
                 if let objects = fetchedResultController.fetchedObjects {
                     countSavedObjects = objects.count
                 }
@@ -150,6 +151,7 @@ class ViewController: UIViewController {
     func restartAnimationForVisibleCells() {
         if let visibleCells = tasksTable.visibleCells as? [TaskTableViewCell] {
             for cell in visibleCells {
+                
                 if let task = cell.taskEntity {
                     cell.animator.makeAnimation(task: task, label: cell.dedlineLabel, view: cell.priorityView)
                 }
@@ -160,6 +162,7 @@ class ViewController: UIViewController {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let task = fetchedResultController.object(at: indexPath) as? TaskEntity
+        
         if let safeTask = task, safeTask.isOn {
             performSegue(withIdentifier: Constants.segueToTaskVC, sender: safeTask)
         }
@@ -172,6 +175,7 @@ class ViewController: UIViewController {
            var taskVC = segue.destination as? ToTaskVCProtocol {
             taskVC.dateFromVC = dateForTaskVC
             taskVC.task = sender as? TaskEntity
+            taskVC.whoCreated = self.restorationIdentifier
         }
     }
 
@@ -193,7 +197,6 @@ extension ViewController: LUNSegmentedControlDelegate, LUNSegmentedControlDataSo
         let newDate = calendar.date(byAdding: dateComponent, to: today)
         
         guard let newDate = newDate, index != 0 else { return "Today"}
-           
         dateFormatter.dateFormat = "E-dd"
             return dateFormatter.string(from: newDate)
        }
@@ -201,6 +204,7 @@ extension ViewController: LUNSegmentedControlDelegate, LUNSegmentedControlDataSo
     
     func segmentedControl(_ segmentedControl: LUNSegmentedControl!, gradientColorsForStateAt index: Int) -> [UIColor]! {
         dateComponent.day = index
+        
         guard let newDate = calendar.date(byAdding: dateComponent, to: today) else { return [.gray] }
         let weekday = calendar.component(.weekday, from: newDate)
         
@@ -282,13 +286,11 @@ extension ViewController: NSFetchedResultsControllerDelegate {
         
         switch type {
         case .insert:
-            
             if let countObjects = countSavedObjects, countObjects > 0 {
                 tasksTable.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
             } else {
                 tasksTable.reloadSections(IndexSet(integer: sectionIndex), with: .automatic)
             }
-            
         case .update:
             tasksTable.reloadData()
         case .move:

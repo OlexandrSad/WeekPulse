@@ -14,6 +14,8 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     @IBOutlet weak var dedlineDatePicker: UIDatePicker!
     @IBOutlet weak var descrTextView: UITextView!
     @IBOutlet weak var countLabel: UILabel!
+    @IBOutlet weak var weatherLabel: UILabel!
+    @IBOutlet weak var weatherView: UIView!
     
     let maxLenghtTitle = 40
     let titlePlaceholder = "Enter task title"
@@ -28,53 +30,27 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     let today = Date()
     let calendar = Calendar.current
     let dateFormatter = DateFormatter()
-    var dateFromVC = Date()
+    var dateFromVC: Date?
     var task: TaskEntity?
+    var whoCreated: String?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setViews(task: task)
+        print(task)
+        setTitleTF(textField: titleTextField, task: task)
+        setDescrTV(textView: descrTextView, task: task)
+        setCountLabel(label: countLabel, task: task)
+        setPriority(segment: prioritySegment, task: task)
+        setPicker(picker: dedlineDatePicker, task: task, date: dateFromVC, today: today)
+        removeWeather(task: task, date: dateFromVC, textView: descrTextView, label: weatherLabel, view: weatherView)
         setTitleVC(date: dateFromVC)
         
         let tapOnClearScreen = UITapGestureRecognizer(target: self, action: #selector(hideAllKeyboard))
         view.addGestureRecognizer(tapOnClearScreen)
     }
-
     
-    func setViews(task: TaskEntity?) {
-        titleTextField.becomeFirstResponder()
-        titleTextField.delegate = self
-        titleTextField.clearButtonMode = .always
-        descrTextView.delegate = self
-        descrTextView.layer.borderColor = UIColor.lightGray.cgColor
-        descrTextView.layer.borderWidth = 2
-        descrTextView.layer.cornerRadius = 5
-        
-        if let task = task {
-            guard let count = task.title?.count, let date = task.dedline else { return }
-            titleTextField.text = task.title
-            countLabel.text = "\(count)/\(maxLenghtTitle)"
-            prioritySegment.selectedSegmentIndex = Int(task.priority)
-            dedlineDatePicker.setDate(date, animated: true)
-            descrTextView.text = task.descript
-        } else {
-            titleTextField.placeholder = titlePlaceholder
-            countLabel.text = "0/\(maxLenghtTitle)"
-            prioritySegment.selectedSegmentIndex = 2
-            dateFormatter.dateFormat = "YYYY-MM-dd"
-            let dateFromVCStr = dateFormatter.string(from: dateFromVC)
-            let todayStr = dateFormatter.string(from: today)
-            if dateFromVCStr == todayStr {
-                dedlineDatePicker.minimumDate = calendar.date(byAdding: .minute, value: 5, to: today)
-            }
-            dedlineDatePicker.date = calendar.date(bySettingHour: 23, minute: 59, second: 0, of: dateFromVC) ?? today
-            descrTextView.textColor = .lightGray
-            descrTextView.text = descrPlaceholder
-        }
-    }
     
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
@@ -86,7 +62,116 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     }
     
     
-    private func setTitleVC(date: Date) {
+    private func setTitleTF(textField: UITextField, task: TaskEntity?) {
+        textField.becomeFirstResponder()
+        textField.delegate = self
+        textField.clearButtonMode = .always
+        
+        if let task = task {
+            textField.text = task.title
+        } else {
+            textField.placeholder = titlePlaceholder
+        }
+    }
+    
+    
+    private func setDescrTV(textView: UITextView, task: TaskEntity?) {
+        textView.delegate = self
+        textView.layer.borderColor = UIColor.lightGray.cgColor
+        textView.layer.borderWidth = 2
+        textView.layer.cornerRadius = 5
+        
+        if let task = task {
+            descrTextView.text = task.descript
+        } else {
+            descrTextView.textColor = .lightGray
+            descrTextView.text = descrPlaceholder
+        }
+    }
+    
+    
+    private func setCountLabel(label: UILabel, task: TaskEntity?) {
+        if let task = task, let count = task.title?.count {
+            label.text = "\(count)/\(maxLenghtTitle)"
+        } else {
+            label.text = "0/\(maxLenghtTitle)"
+        }
+    }
+    
+    
+    private func setPriority(segment: UISegmentedControl, task: TaskEntity?) {
+        if let task = task {
+            segment.selectedSegmentIndex = Int(task.priority)
+        } else {
+            segment.selectedSegmentIndex = 2
+        }
+    }
+    
+    
+    private func setPicker(picker: UIDatePicker, task: TaskEntity?, date: Date?, today: Date) {
+        if let task = task, let dedline = task.dedline {
+            dedlineDatePicker.setDate(dedline, animated: true)
+            
+            if whoCreated == "AllTasksViewControllerID" {
+                dedlineDatePicker.datePickerMode = .dateAndTime
+                dedlineDatePicker.minimumDate = calendar.date(byAdding: .minute, value: 5, to: today)
+            }
+        } else {
+            
+            if let date = date {
+                dateFormatter.dateFormat = "YYYY-MM-dd"
+                let dateFromVCStr = dateFormatter.string(from: date)
+                let todayStr = dateFormatter.string(from: today)
+                
+                if dateFromVCStr == todayStr {
+                    dedlineDatePicker.minimumDate = calendar.date(byAdding: .minute, value: 5, to: today)
+                }
+                
+                dedlineDatePicker.date = calendar.date(bySettingHour: 23, minute: 59, second: 0, of: date) ?? today
+            } else {
+                dedlineDatePicker.datePickerMode = .dateAndTime
+                let components = calendar.dateComponents([.year, .month, .day], from: today)
+                
+                if let startOfDay = calendar.date(from: components) {
+                    dedlineDatePicker.minimumDate = calendar.date(byAdding: .day, value: 7, to: startOfDay)
+                }
+            }
+        }
+    }
+
+    
+    private func removeWeather(task: TaskEntity?, date: Date?, textView: UITextView?, label: UILabel, view: UIView) {
+        if let task = task, let dedline = task.dedline {
+            let components = calendar.dateComponents([.year, .month, .day], from: Date())
+            let startToday = calendar.date(from: components) ?? Date()
+            let plusSevenDays = calendar.date(byAdding: .day, value: 7, to: startToday)
+            
+            if let plusSeven = plusSevenDays, plusSeven < dedline {
+                removeViews(textView: textView, label: label, view: view)
+            }
+        } else {
+            
+            if date == nil {
+                removeViews(textView: textView, label: label, view: view)
+            }
+        }
+    }
+    
+    
+    private func removeViews(textView: UITextView?, label: UILabel, view: UIView) {
+        view.removeFromSuperview()
+        label.removeFromSuperview()
+        
+        if let descrTextView = textView {
+            let newConstraint = NSLayoutConstraint(item: descrTextView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: -100)
+            newConstraint.isActive = true
+        }
+    }
+    
+    
+    private func setTitleVC(date: Date?) {
+        guard let date = date else { return }
+        
         let weekDay = calendar.component(.weekday, from: date)
         let weekDayString = dateFormatter.weekdaySymbols[weekDay - 1]
 
@@ -207,9 +292,8 @@ extension TaskViewController: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard let currentText = textView.text else { return true }
-    
-        let maxLength = 500
         
+        let maxLength = 500
         let newText = (currentText as NSString).replacingCharacters(in: range, with: text)
         return newText.count <= maxLength
     }

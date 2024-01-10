@@ -12,15 +12,17 @@ class Animator {
     
     func makeAnimation(task: TaskEntity?, label: UILabel, view: UIView) {
         guard let task = task, let taskDedline = task.dedline else { return }
+        
         if task.isOn {
             let today = Date()
-            guard taskDedline < today  else { return }
             
+            guard taskDedline < today  else { return }
             UIView.animate(withDuration: 0.4, delay: 0, options: [.autoreverse, .repeat]) {
                 label.textColor = .red
                 label.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
                 view.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
             } completion: { isFinished in
+                
                 if isFinished {
                     label.layer.removeAllAnimations()
                     view.layer.removeAllAnimations()
@@ -31,7 +33,6 @@ class Animator {
                     self.makeAnimation(task: task, label: label, view: view)
                 }
             }
-
         } else {
             label.layer.removeAllAnimations()
             view.layer.removeAllAnimations()

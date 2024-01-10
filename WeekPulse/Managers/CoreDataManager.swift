@@ -25,8 +25,10 @@ class CoreDataManager {
 
     lazy var viewContex = persistentContainer.viewContext
 
+    
     func saveContext () {
         let context = persistentContainer.viewContext
+       
         if context.hasChanges {
             do {
                 try context.save()
@@ -36,6 +38,7 @@ class CoreDataManager {
             }
         }
     }
+    
     
     func UpdateOrCreateTask(title: String, ptiority: Int, dedline: Date, dedlineStr: String, descript: String, taskEntity: TaskEntity?) {
         let notifiCentr = NotificationCentr()
@@ -55,6 +58,7 @@ class CoreDataManager {
                 taskFromDB.title = title
                 taskFromDB.priority = Int16(ptiority)
                 taskFromDB.dedline = dedline
+                taskFromDB.dedlineStr = dedlineStr
                 taskFromDB.descript = descript
                 notifiCentr.sendNotification(task: taskFromDB, minutes: 5)
                 saveContext()
@@ -80,6 +84,7 @@ class CoreDataManager {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         let startOfDay = Calendar.current.startOfDay(for: date)
         let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)
+        
         if let endOfDay = endOfDay {
             fetchRequest.predicate = NSPredicate(format: "dedline >= %@ AND dedline < %@", startOfDay as CVarArg, endOfDay as CVarArg)
         }
@@ -109,17 +114,16 @@ class CoreDataManager {
     
     func checkExpiredTask(entityName: String, contex: NSManagedObjectContext, today: Date, chosedDay: Date) {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-dd"
+        dateFormatter.dateFormat = "YYYY-MM-dd (EEEE)"
         let startOfToday = Calendar.current.startOfDay(for: today)
         let startOfChosedDay = Calendar.current.startOfDay(for: chosedDay)
+      
         guard startOfToday == startOfChosedDay else { return }
-        
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         fetchRequest.predicate = NSPredicate(format: "dedline < %@", startOfToday as CVarArg)
         
         do {
             guard let tasks = try contex.fetch(fetchRequest) as? [TaskEntity], !tasks.isEmpty else { return }
-            
             for task in tasks {
                 if task.isOn {
                     task.dedline = startOfToday
