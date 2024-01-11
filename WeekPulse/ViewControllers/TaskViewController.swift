@@ -20,6 +20,7 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     let maxLenghtTitle = 40
     let titlePlaceholder = "Enter task title"
     let descrPlaceholder = "1. Enter task description\n2.\n3.\n..."
+    let colorPriority: [UIColor] = [.green, .yellow, .red]
  
     var counterTitleChars = 0 {
         didSet {
@@ -37,7 +38,6 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(task)
         setTitleTF(textField: titleTextField, task: task)
         setDescrTV(textView: descrTextView, task: task)
         setCountLabel(label: countLabel, task: task)
@@ -105,6 +105,13 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
         } else {
             segment.selectedSegmentIndex = 2
         }
+        segment.selectedSegmentTintColor = colorPriority[segment.selectedSegmentIndex]
+        segment.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
+    }
+    
+    
+    @objc private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+        sender.selectedSegmentTintColor = colorPriority[sender.selectedSegmentIndex]
     }
     
     
