@@ -15,13 +15,26 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     @IBOutlet weak var descrTextView: UITextView!
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var weatherLabel: UILabel!
-    @IBOutlet weak var weatherView: UIView!
+    @IBOutlet weak var weatherStack: UIStackView!
+    @IBOutlet weak var timeLeftLabel: UILabel!
+    @IBOutlet weak var timeCentrLabel: UILabel!
+    @IBOutlet weak var timeRightLabel: UILabel!
+    @IBOutlet weak var tempLeftLabel: UILabel!
+    @IBOutlet weak var tempCentrLabel: UILabel!
+    @IBOutlet weak var tempRightLabel: UILabel!
+    @IBOutlet weak var windLeftLabel: UILabel!
+    @IBOutlet weak var windCentrLabel: UILabel!
+    @IBOutlet weak var windRightLabel: UILabel!
+    @IBOutlet weak var leftImageView: UIImageView!
+    @IBOutlet weak var centrImageView: UIImageView!
+    @IBOutlet weak var rightImageView: UIImageView!
     
     let maxLenghtTitle = 40
     let titlePlaceholder = "Enter task title"
     let descrPlaceholder = "1. Enter task description\n2.\n3.\n..."
+    let latitude = "51.344444"
+    let longitude = "25.850833"
     let colorPriority: [UIColor] = [.green, .yellow, .red]
- 
     var counterTitleChars = 0 {
         didSet {
             countLabel.text = "\(counterTitleChars)/\(maxLenghtTitle)"
@@ -34,6 +47,7 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     var dateFromVC: Date?
     var task: TaskEntity?
     var whoCreated: String?
+    let networkManger = NetworkManager.shared
     
     
     override func viewDidLoad() {
@@ -43,8 +57,9 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
         setCountLabel(label: countLabel, task: task)
         setPriority(segment: prioritySegment, task: task)
         setPicker(picker: dedlineDatePicker, task: task, date: dateFromVC, today: today)
-        removeWeather(task: task, date: dateFromVC, textView: descrTextView, label: weatherLabel, view: weatherView)
+        removeWeather(task: task, date: dateFromVC, textView: descrTextView, label: weatherLabel, stack: weatherStack)
         setTitleVC(date: dateFromVC)
+        setWeather(lat: latitude, lon: longitude)
         
         let tapOnClearScreen = UITapGestureRecognizer(target: self, action: #selector(hideAllKeyboard))
         view.addGestureRecognizer(tapOnClearScreen)
@@ -147,26 +162,26 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     }
 
     
-    private func removeWeather(task: TaskEntity?, date: Date?, textView: UITextView?, label: UILabel, view: UIView) {
+    private func removeWeather(task: TaskEntity?, date: Date?, textView: UITextView?, label: UILabel, stack: UIStackView) {
         if let task = task, let dedline = task.dedline {
             let components = calendar.dateComponents([.year, .month, .day], from: Date())
             let startToday = calendar.date(from: components) ?? Date()
             let plusSevenDays = calendar.date(byAdding: .day, value: 7, to: startToday)
             
             if let plusSeven = plusSevenDays, plusSeven < dedline {
-                removeViews(textView: textView, label: label, view: view)
+                removeViews(textView: textView, label: label, stack: stack)
             }
         } else {
             
             if date == nil {
-                removeViews(textView: textView, label: label, view: view)
+                removeViews(textView: textView, label: label, stack: stack)
             }
         }
     }
     
     
-    private func removeViews(textView: UITextView?, label: UILabel, view: UIView) {
-        view.removeFromSuperview()
+    private func removeViews(textView: UITextView?, label: UILabel, stack: UIStackView) {
+        stack.removeFromSuperview()
         label.removeFromSuperview()
         
         if let descrTextView = textView {
@@ -203,6 +218,25 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             view.layer.borderWidth = 0
             alert.dismiss(animated: true)
+        }
+    }
+    
+    
+    private func setWeather(lat: String, lon: String) {
+        networkManger.fetchWeatherData(lat: lat, lon: lon) { [weak self] result in
+            
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let weatherData):
+                guard let dateFromVC = dateFromVC, weatherStack != nil else { return }
+                ParserWeatherData().setViews(weatherData: weatherData, weatherLabel: weatherLabel, dayVC: dateFromVC,
+                                             timeLeftLabel: timeLeftLabel, timeCentrLabel: timeCentrLabel, timeRightLabel: timeRightLabel,
+                                             tempLeftLabel: tempLeftLabel, tempCentrLabel: tempCentrLabel, tempRightLabel: tempRightLabel,
+                                             windLeftLabel: windLeftLabel, windCentrLabel: windCentrLabel, windRightLabel: windRightLabel,
+                                             leftImageView: leftImageView, centrImageView: centrImageView, rightImageView: rightImageView)
+            case .failure(let error): print(error)
+            }
         }
     }
     
