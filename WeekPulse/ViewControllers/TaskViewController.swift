@@ -32,9 +32,10 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     let maxLenghtTitle = 40
     let titlePlaceholder = "Enter task title"
     let descrPlaceholder = "1. Enter task description\n2.\n3.\n..."
-    let latitude = "51.344444"
-    let longitude = "25.850833"
     let colorPriority: [UIColor] = [.green, .yellow, .red]
+    var town = "Kyiv, UA"
+    var latitude = "50.4501"
+    var longitude = "30.5234"
     var counterTitleChars = 0 {
         didSet {
             countLabel.text = "\(counterTitleChars)/\(maxLenghtTitle)"
@@ -206,22 +207,6 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     }
     
     
-    private func alertNoTitle(view: UIView) {
-        let animator = Animator()
-        let alert = UIAlertController(title: "Error", message: "Please enter task title", preferredStyle: .alert)
-        view.layer.cornerRadius = 5
-        view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor.red.cgColor
-        present(alert, animated: true)
-        animator.shakeAnimation(view: view)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            view.layer.borderWidth = 0
-            alert.dismiss(animated: true)
-        }
-    }
-    
-    
     private func setWeather(lat: String, lon: String) {
         networkManger.fetchWeatherData(lat: lat, lon: lon) { [weak self] result in
             
@@ -229,14 +214,28 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
             
             switch result {
             case .success(let weatherData):
-                guard let dateFromVC = dateFromVC, weatherStack != nil else { return }
-                ParserWeatherData().setViews(weatherData: weatherData, weatherLabel: weatherLabel, dayVC: dateFromVC,
-                                             timeLeftLabel: timeLeftLabel, timeCentrLabel: timeCentrLabel, timeRightLabel: timeRightLabel,
-                                             tempLeftLabel: tempLeftLabel, tempCentrLabel: tempCentrLabel, tempRightLabel: tempRightLabel,
-                                             windLeftLabel: windLeftLabel, windCentrLabel: windCentrLabel, windRightLabel: windRightLabel,
-                                             leftImageView: leftImageView, centrImageView: centrImageView, rightImageView: rightImageView)
-            case .failure(let error): print(error)
+                guard let dateFromVC = self.dateFromVC, self.weatherStack != nil else { return }
+                ParserWeatherData().setViews(weatherData: weatherData, weatherLabel: self.weatherLabel, town: self.town, dayVC: dateFromVC,
+                                             timeLeftLabel: self.timeLeftLabel, timeCentrLabel: self.timeCentrLabel, timeRightLabel: self.timeRightLabel,
+                                             tempLeftLabel: self.tempLeftLabel, tempCentrLabel: self.tempCentrLabel, tempRightLabel: self.tempRightLabel,
+                                             windLeftLabel: self.windLeftLabel, windCentrLabel: self.windCentrLabel, windRightLabel: self.windRightLabel,
+                                             leftImageView: self.leftImageView, centrImageView: self.centrImageView, rightImageView: self.rightImageView)
+            case .failure(let error):
+                print(error)
             }
+        }
+    }
+
+    
+    private func alertNoTitle(view: UIView) {
+        let animator = Animator()
+        let alert = UIAlertController(title: "Error", message: "Please enter task title", preferredStyle: .alert)
+        
+        present(alert, animated: true)
+        animator.shakeAnimation(view: view)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            alert.dismiss(animated: true)
         }
     }
     
@@ -270,6 +269,26 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
         alert.addAction(actionCancel)
         alert.addAction(actionOK)
         self.present(alert, animated: true)
+    }
+    
+    
+    @IBAction func searchTownButton(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let townVC = storyboard.instantiateViewController(withIdentifier: "SearchTownVC") as! SearchTownViewController
+       
+        townVC.town = weatherLabel.text
+        townVC.complitionHundler = {[weak self] updatedTown in
+            let townKey = updatedTown.keys.first!
+            self?.town = townKey
+            if let coordinate = updatedTown[townKey] {
+                self?.latitude = coordinate[0]
+                self?.longitude = coordinate[1]
+                self?.setWeather(lat: coordinate[0], lon: coordinate[1])
+            }
+
+        }
+        
+        present(townVC, animated: true)
     }
     
 }

@@ -9,8 +9,7 @@ import UIKit
 import LUNSegmentedControl
 import CoreData
 
-class ViewController: UIViewController {
-    
+class ViewController: UIViewController {  
     @IBOutlet weak var segment: LUNSegmentedControl!
     @IBOutlet weak var tasksTable: UITableView!
     
@@ -158,7 +157,7 @@ class ViewController: UIViewController {
             }
         }
     }
-    
+
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let task = fetchedResultController.object(at: indexPath) as? TaskEntity

@@ -44,11 +44,17 @@ class Animator {
     
     
     func shakeAnimation(view: UIView) {
+        view.layer.cornerRadius = 5
+        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.red.cgColor
         let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
         animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
         animation.duration = 0.4
         animation.values = [-10.0, 10.0, -7.0, 7.0, -5.0, 5.0, 0.0 ]
         view.layer.add(animation, forKey: "shake")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            view.layer.borderWidth = 0
+        }
     }
     
 }

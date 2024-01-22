@@ -9,15 +9,13 @@ import Foundation
 
 class ParserWeatherData {
     
-    func setViews(weatherData: WeatherData, weatherLabel: UILabel, dayVC: Date,
+    func setViews(weatherData: WeatherData, weatherLabel: UILabel, town: String, dayVC: Date,
                   timeLeftLabel: UILabel, timeCentrLabel: UILabel, timeRightLabel: UILabel,
                   tempLeftLabel: UILabel, tempCentrLabel: UILabel, tempRightLabel: UILabel,
                   windLeftLabel: UILabel, windCentrLabel: UILabel, windRightLabel: UILabel,
                   leftImageView: UIImageView, centrImageView: UIImageView, rightImageView: UIImageView) {
         
-        let town = weatherData.city?.name ?? "town"
-        let country = weatherData.city?.country ?? "country"
-        weatherLabel.text = "Weather for \(town), \(country)"
+        weatherLabel.text = town
         
         let arrays = createArrays(weatherData: weatherData)
         let indexSelectedArray = findArray(arrays: arrays, dayVC: dayVC)
