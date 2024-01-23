@@ -177,6 +177,7 @@ extension AllTasksViewController: UITableViewDelegate, UITableViewDataSource {
         if editingStyle == .delete {
             let task = fetchedResultController.object(at: indexPath) as! TaskEntity
             coreDataManager.viewContex.delete(task)
+            NotificationCentr.shared.deleteNotification(for: task)
             coreDataManager.saveContext()
         }
     }

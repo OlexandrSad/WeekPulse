@@ -10,8 +10,11 @@ import UserNotifications
 
 class NotificationCentr {
     
-    let notificationCentr = UNUserNotificationCenter.current()
+    static var shared = NotificationCentr()
+    private init(){}
     
+    let minutes = 5
+    let notificationCentr = UNUserNotificationCenter.current()
     
     func requestAuthorization() {
         notificationCentr.requestAuthorization(options: [.alert, .badge, .sound]) { granded, error in
@@ -24,7 +27,7 @@ class NotificationCentr {
     }
     
     
-    func sendNotification(task: TaskEntity, minutes: Int) {
+    func setNotification(for task: TaskEntity) {
         let calendar = Calendar.current
         let currentDate = Date()
         let futureDate = task.dedline ?? Date()
@@ -48,6 +51,13 @@ class NotificationCentr {
             if let error = error {
                 print("Error notification request \(String(describing: error.localizedDescription))")
             }
+        }
+    }
+    
+    
+    func deleteNotification(for task: TaskEntity) {
+        if let id = task.id {
+            notificationCentr.removePendingNotificationRequests(withIdentifiers: [id])
         }
     }
     

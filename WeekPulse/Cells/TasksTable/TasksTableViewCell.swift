@@ -68,6 +68,13 @@ class TasksTableViewCell: UITableViewCell {
     @IBAction func isOnTaskSwitch(_ sender: UISwitch) {
         taskEntity?.isOn = sender.isOn
         CoreDataManager.shared.saveContext()
+        
+        guard let task = taskEntity else { return }
+        if sender.isOn {
+            NotificationCentr.shared.setNotification(for: task)
+        } else {
+            NotificationCentr.shared.deleteNotification(for: task)
+        }
     }
     
 }

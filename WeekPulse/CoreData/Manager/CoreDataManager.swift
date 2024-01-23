@@ -41,7 +41,7 @@ class CoreDataManager {
     
     
     func UpdateOrCreateTask(title: String, ptiority: Int, dedline: Date, dedlineStr: String, descript: String, taskEntity: TaskEntity?) {
-        let notifiCentr = NotificationCentr()
+        let notifiCentr = NotificationCentr.shared
         do {
             if let task = taskEntity, let id = task.id {
                 let request: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
@@ -60,7 +60,7 @@ class CoreDataManager {
                 taskFromDB.dedline = dedline
                 taskFromDB.dedlineStr = dedlineStr
                 taskFromDB.descript = descript
-                notifiCentr.sendNotification(task: taskFromDB, minutes: 5)
+                notifiCentr.setNotification(for: taskFromDB)
                 saveContext()
             } else {
                 let taskEntity = TaskEntity(context: viewContex)
@@ -71,7 +71,7 @@ class CoreDataManager {
                 taskEntity.isOn = true
                 taskEntity.descript = descript
                 taskEntity.id = UUID().uuidString
-                notifiCentr.sendNotification(task: taskEntity, minutes: 5)
+                notifiCentr.setNotification(for: taskEntity)
                 saveContext()
             }
         } catch let error {

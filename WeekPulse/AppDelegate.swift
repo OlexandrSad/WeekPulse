@@ -13,10 +13,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let notificationCentr = NotificationCentr()
+        let notificationCentr = NotificationCentr.shared
         notificationCentr.requestAuthorization()
         notificationCentr.notificationCentr.delegate = self
-      //  notificationCentr.sendNotification()
         return true
     }
 
