@@ -137,8 +137,8 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
             
             if whoCreated == "AllTasksViewControllerID" {
                 dedlineDatePicker.datePickerMode = .dateAndTime
-                dedlineDatePicker.minimumDate = calendar.date(byAdding: .minute, value: 5, to: today)
             }
+            picker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
         } else {
             
             if let date = date {
@@ -159,6 +159,15 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
                     dedlineDatePicker.minimumDate = calendar.date(byAdding: .day, value: 7, to: startOfDay)
                 }
             }
+        }
+    }
+    
+    
+    @objc func datePickerValueChanged(_ sender: UIDatePicker) {
+        let currentDate = Date()
+
+        if sender.date < currentDate {
+            dedlineDatePicker.setDate(currentDate, animated: true)
         }
     }
 
