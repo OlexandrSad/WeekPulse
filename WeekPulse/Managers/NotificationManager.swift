@@ -7,14 +7,16 @@
 
 import Foundation
 import UserNotifications
+import UIKit
 
-class NotificationCentr {
+class NotificationManager {
     
-    static var shared = NotificationCentr()
+    static var shared = NotificationManager()
     private init(){}
     
     let minutes = 5
     let notificationCentr = UNUserNotificationCenter.current()
+    
     
     func requestAuthorization() {
         notificationCentr.requestAuthorization(options: [.alert, .badge, .sound]) { granded, error in
@@ -44,6 +46,7 @@ class NotificationCentr {
         content.title = "Task \"\(String(describing: title))\""
         content.body = "will be expired in \(minutes) minutes"
         content.sound = UNNotificationSound.default
+        content.badge = 1
         let trigger  = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(timeInterval), repeats: false)
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
         notificationCentr.add(request) { error in

@@ -71,9 +71,9 @@ class TasksTableViewCell: UITableViewCell {
         
         guard let task = taskEntity else { return }
         if sender.isOn {
-            NotificationCentr.shared.setNotification(for: task)
+            NotificationManager.shared.setNotification(for: task)
         } else {
-            NotificationCentr.shared.deleteNotification(for: task)
+            NotificationManager.shared.deleteNotification(for: task)
         }
     }
     

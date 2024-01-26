@@ -165,9 +165,10 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
         let currentDate = Date()
-
+        
         if sender.date < currentDate {
-            dedlineDatePicker.setDate(currentDate, animated: true)
+            let newDate = currentDate.addingTimeInterval(5 * 60)
+            dedlineDatePicker.setDate(newDate, animated: true)
         }
     }
 
@@ -266,12 +267,13 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
         let alert = UIAlertController(title: "Save task", message: "Are you sure?", preferredStyle: .alert)
         let actionCancel = UIAlertAction(title: "Cancel", style: .cancel)
         let actionOK = UIAlertAction(title: "Ok", style: .default) { [weak self] _ in
-            CoreDataManager.shared.UpdateOrCreateTask(title: title,
-                                                      ptiority: priority,
-                                                      dedline: date,
-                                                      dedlineStr: dedlineStr,
-                                                      descript: desctipt,
-                                                      taskEntity: self?.task)
+           
+            let taskForNotification = CoreDataManager.shared.UpdateOrCreateTask(title: title, ptiority: priority, dedline: date,
+                                                                                dedlineStr: dedlineStr, descript: desctipt, taskEntity: self?.task)
+            if let task = taskForNotification {
+                NotificationManager.shared.setNotification(for: task)
+            }
+            
             self?.navigationController?.popViewController(animated: true)
         }
         

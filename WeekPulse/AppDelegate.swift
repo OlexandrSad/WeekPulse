@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let notificationCentr = NotificationCentr.shared
+        let notificationCentr = NotificationManager.shared
         notificationCentr.requestAuthorization()
         notificationCentr.notificationCentr.delegate = self
         return true
@@ -29,9 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
     }
     
+    
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.sound, .banner])
     }

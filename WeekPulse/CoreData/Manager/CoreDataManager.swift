@@ -40,8 +40,8 @@ class CoreDataManager {
     }
     
     
-    func UpdateOrCreateTask(title: String, ptiority: Int, dedline: Date, dedlineStr: String, descript: String, taskEntity: TaskEntity?) {
-        let notifiCentr = NotificationCentr.shared
+    func UpdateOrCreateTask(title: String, ptiority: Int, dedline: Date, dedlineStr: String, descript: String, taskEntity: TaskEntity?) -> TaskEntity? {
+        var returnTask: TaskEntity?
         do {
             if let task = taskEntity, let id = task.id {
                 let request: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
@@ -52,7 +52,7 @@ class CoreDataManager {
                 
                 guard let taskFromDB = tasksFromDB.first else {
                     print("Task with given ID not found.")
-                    return
+                    return task
                 }
                 
                 taskFromDB.title = title
@@ -60,7 +60,7 @@ class CoreDataManager {
                 taskFromDB.dedline = dedline
                 taskFromDB.dedlineStr = dedlineStr
                 taskFromDB.descript = descript
-                notifiCentr.setNotification(for: taskFromDB)
+                returnTask = taskFromDB
                 saveContext()
             } else {
                 let taskEntity = TaskEntity(context: viewContex)
@@ -71,12 +71,13 @@ class CoreDataManager {
                 taskEntity.isOn = true
                 taskEntity.descript = descript
                 taskEntity.id = UUID().uuidString
-                notifiCentr.setNotification(for: taskEntity)
+                returnTask = taskEntity
                 saveContext()
             }
         } catch let error {
             print("Error while updating/creating task: \(error.localizedDescription)")
         }
+        return returnTask
     }
     
     
