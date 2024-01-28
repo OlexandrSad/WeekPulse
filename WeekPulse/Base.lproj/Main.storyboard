@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KNO-Dr-E4z">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -25,7 +24,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ib4-vx-YJv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2801" y="-690"/>
+            <point key="canvasLocation" x="1989" y="-700"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -540,7 +539,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i6o-3b-DuE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="353" y="4"/>
+            <point key="canvasLocation" x="-4" y="4"/>
         </scene>
         <!--All Tasks View Controller-->
         <scene sceneID="vCu-3p-vW2">
@@ -589,18 +588,33 @@
         <!--Weather-->
         <scene sceneID="D5n-me-Ctg">
             <objects>
-                <viewController id="nYd-jy-hsP" sceneMemberID="viewController">
+                <viewController id="nYd-jy-hsP" customClass="WeatherViewController" customModule="WeekPulse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XSK-Qw-QKG">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="7l1-eF-ivd">
+                                <rect key="frame" x="0.0" y="59" width="393" height="710"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="zu6-yd-c3f"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="zu6-yd-c3f" firstAttribute="bottom" secondItem="7l1-eF-ivd" secondAttribute="bottom" id="JlU-YQ-ZBi"/>
+                            <constraint firstItem="7l1-eF-ivd" firstAttribute="top" secondItem="zu6-yd-c3f" secondAttribute="top" id="ZjZ-D7-IL0"/>
+                            <constraint firstItem="7l1-eF-ivd" firstAttribute="leading" secondItem="zu6-yd-c3f" secondAttribute="leading" id="stR-pV-3MQ"/>
+                            <constraint firstItem="zu6-yd-c3f" firstAttribute="trailing" secondItem="7l1-eF-ivd" secondAttribute="trailing" id="wjP-zK-75Y"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Weather" image="sun.horizon" catalog="system" id="s7z-7u-d6F"/>
+                    <connections>
+                        <outlet property="weatherTable" destination="7l1-eF-ivd" id="xXz-FV-eYu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EB5-dR-nlT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-384" y="732"/>
+            <point key="canvasLocation" x="2801" y="732"/>
         </scene>
         <!--All tasks-->
         <scene sceneID="q8Q-cH-cIr">
@@ -619,11 +633,11 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sSy-TF-taT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1241.9847328244275" y="731.69014084507046"/>
+            <point key="canvasLocation" x="1242" y="732"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ebr-PA-yDK"/>
+        <segue reference="29S-mH-FrM"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="-" width="1536" height="1536"/>
@@ -643,10 +657,10 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemCyanColor">
-            <color red="0.19607843137254902" green="0.67843137254901964" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.1960784314" green="0.67843137249999996" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGrayColor">
-            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

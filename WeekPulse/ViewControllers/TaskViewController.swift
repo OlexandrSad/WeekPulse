@@ -67,6 +67,12 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     }
     
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        titleTextField.becomeFirstResponder()
+    }
+    
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
@@ -79,7 +85,6 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     
     
     private func setTitleTF(textField: UITextField, task: TaskEntity?) {
-        textField.becomeFirstResponder()
         textField.delegate = self
         textField.clearButtonMode = .always
         
