@@ -13,7 +13,10 @@ class ParserTownData {
     func createTownsArray(townModel: TownModel) -> [String:[String]] {
         var towns = [String:[String]]()
         for element in townModel {
-            let fullString = "\(element.name ?? ""), \(element.state ?? ""), \(element.country ?? "")"
+            var fullString = "\(element.name ?? ""), \(element.state ?? ""), \(element.country ?? "")"
+            if element.state == nil {
+                fullString = "\(element.name ?? ""), \(element.country ?? "")"
+            }
             if let lat = element.lat, let lon = element.lon {
                 let lat = String(lat)
                 let lon = String(lon)
