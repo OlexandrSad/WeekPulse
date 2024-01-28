@@ -7,14 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		118D32FF2B37595E009C8B0B /* TaskEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D32FD2B37595E009C8B0B /* TaskEntity+CoreDataProperties.swift */; };
-		118D33002B37595E009C8B0B /* TaskEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D32FE2B37595E009C8B0B /* TaskEntity+CoreDataClass.swift */; };
+		113E2AEE2B64457900CAA522 /* SearchTownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113E2AED2B64457900CAA522 /* SearchTownViewController.swift */; };
 		118D33192B39CF1B009C8B0B /* ToTaskVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D33182B39CF1B009C8B0B /* ToTaskVCProtocol.swift */; };
-		118D33252B407C10009C8B0B /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D33242B407C10009C8B0B /* Animator.swift */; };
-		118D33272B4168EF009C8B0B /* NotificationCentr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D33262B4168EF009C8B0B /* NotificationCentr.swift */; };
 		118D332A2B45C8CB009C8B0B /* AllTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D33292B45C8CB009C8B0B /* AllTasksViewController.swift */; };
-		118D332F2B470518009C8B0B /* TasksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D332D2B470518009C8B0B /* TasksTableViewCell.swift */; };
-		118D33302B470518009C8B0B /* TasksTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 118D332E2B470518009C8B0B /* TasksTableViewCell.xib */; };
+		11CB0F5D2B66B39F00EFE061 /* TasksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F592B66B39F00EFE061 /* TasksTableViewCell.swift */; };
+		11CB0F5E2B66B39F00EFE061 /* TasksTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11CB0F5A2B66B39F00EFE061 /* TasksTableViewCell.xib */; };
+		11CB0F5F2B66B39F00EFE061 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F5B2B66B39F00EFE061 /* TaskTableViewCell.swift */; };
+		11CB0F602B66B39F00EFE061 /* TaskTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11CB0F5C2B66B39F00EFE061 /* TaskTableViewCell.xib */; };
+		11CB0F6D2B66B4DD00EFE061 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F682B66B4DD00EFE061 /* NetworkManager.swift */; };
+		11CB0F6E2B66B4DD00EFE061 /* ParserWeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F692B66B4DD00EFE061 /* ParserWeatherData.swift */; };
+		11CB0F6F2B66B4DD00EFE061 /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F6A2B66B4DD00EFE061 /* NetworkModel.swift */; };
+		11CB0F702B66B4DD00EFE061 /* TownModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F6B2B66B4DD00EFE061 /* TownModel.swift */; };
+		11CB0F712B66B4DD00EFE061 /* ParserTownData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F6C2B66B4DD00EFE061 /* ParserTownData.swift */; };
+		11CB0F832B66B68E00EFE061 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F822B66B68E00EFE061 /* CoreDataManager.swift */; };
+		11CB0F862B66B71300EFE061 /* TaskEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F842B66B71300EFE061 /* TaskEntity+CoreDataProperties.swift */; };
+		11CB0F872B66B71300EFE061 /* TaskEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F852B66B71300EFE061 /* TaskEntity+CoreDataClass.swift */; };
+		11CB0F8A2B66B78900EFE061 /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F882B66B78800EFE061 /* Animator.swift */; };
+		11CB0F8B2B66B78900EFE061 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F892B66B78900EFE061 /* NotificationManager.swift */; };
 		11F89E3A2B0E62C900EBB9AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E392B0E62C900EBB9AF /* AppDelegate.swift */; };
 		11F89E3C2B0E62C900EBB9AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E3B2B0E62C900EBB9AF /* SceneDelegate.swift */; };
 		11F89E3E2B0E62C900EBB9AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E3D2B0E62C900EBB9AF /* ViewController.swift */; };
@@ -26,9 +35,6 @@
 		11F89E5E2B0E62CA00EBB9AF /* WeekPulseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E5D2B0E62CA00EBB9AF /* WeekPulseUITests.swift */; };
 		11F89E602B0E62CA00EBB9AF /* WeekPulseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E5F2B0E62CA00EBB9AF /* WeekPulseUITestsLaunchTests.swift */; };
 		11F89E782B11056800EBB9AF /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E772B11056800EBB9AF /* TaskViewController.swift */; };
-		11F89E812B123B6000EBB9AF /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E7F2B123B6000EBB9AF /* TaskTableViewCell.swift */; };
-		11F89E822B123B6000EBB9AF /* TaskTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11F89E802B123B6000EBB9AF /* TaskTableViewCell.xib */; };
-		11F89E932B125FF000EBB9AF /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E922B125FF000EBB9AF /* CoreDataManager.swift */; };
 		B5D5E2ED47927762593ED706 /* Pods_WeekPulseTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3363C89A566E4C4261F15B2 /* Pods_WeekPulseTests.framework */; };
 		CB4866A6DE71E85D608F0236 /* Pods_WeekPulse_WeekPulseUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936923BCA962ED0BE1A29B4F /* Pods_WeekPulse_WeekPulseUITests.framework */; };
 		E7B12DCC24A8F1E003FC690A /* Pods_WeekPulse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4A251847D3C35926A986F7 /* Pods_WeekPulse.framework */; };
@@ -53,14 +59,23 @@
 
 /* Begin PBXFileReference section */
 		0290BBFA4068A5DD10691E27 /* Pods-WeekPulseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeekPulseTests.debug.xcconfig"; path = "Target Support Files/Pods-WeekPulseTests/Pods-WeekPulseTests.debug.xcconfig"; sourceTree = "<group>"; };
-		118D32FD2B37595E009C8B0B /* TaskEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TaskEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		118D32FE2B37595E009C8B0B /* TaskEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TaskEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		113E2AED2B64457900CAA522 /* SearchTownViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTownViewController.swift; sourceTree = "<group>"; };
 		118D33182B39CF1B009C8B0B /* ToTaskVCProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToTaskVCProtocol.swift; sourceTree = "<group>"; };
-		118D33242B407C10009C8B0B /* Animator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
-		118D33262B4168EF009C8B0B /* NotificationCentr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentr.swift; sourceTree = "<group>"; };
 		118D33292B45C8CB009C8B0B /* AllTasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTasksViewController.swift; sourceTree = "<group>"; };
-		118D332D2B470518009C8B0B /* TasksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksTableViewCell.swift; sourceTree = "<group>"; };
-		118D332E2B470518009C8B0B /* TasksTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TasksTableViewCell.xib; sourceTree = "<group>"; };
+		11CB0F592B66B39F00EFE061 /* TasksTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksTableViewCell.swift; sourceTree = "<group>"; };
+		11CB0F5A2B66B39F00EFE061 /* TasksTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TasksTableViewCell.xib; sourceTree = "<group>"; };
+		11CB0F5B2B66B39F00EFE061 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
+		11CB0F5C2B66B39F00EFE061 /* TaskTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskTableViewCell.xib; sourceTree = "<group>"; };
+		11CB0F682B66B4DD00EFE061 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		11CB0F692B66B4DD00EFE061 /* ParserWeatherData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserWeatherData.swift; sourceTree = "<group>"; };
+		11CB0F6A2B66B4DD00EFE061 /* NetworkModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
+		11CB0F6B2B66B4DD00EFE061 /* TownModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TownModel.swift; sourceTree = "<group>"; };
+		11CB0F6C2B66B4DD00EFE061 /* ParserTownData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserTownData.swift; sourceTree = "<group>"; };
+		11CB0F822B66B68E00EFE061 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		11CB0F842B66B71300EFE061 /* TaskEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TaskEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		11CB0F852B66B71300EFE061 /* TaskEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TaskEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		11CB0F882B66B78800EFE061 /* Animator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
+		11CB0F892B66B78900EFE061 /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		11F89E362B0E62C900EBB9AF /* WeekPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeekPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11F89E392B0E62C900EBB9AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		11F89E3B2B0E62C900EBB9AF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,9 +91,6 @@
 		11F89E5D2B0E62CA00EBB9AF /* WeekPulseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekPulseUITests.swift; sourceTree = "<group>"; };
 		11F89E5F2B0E62CA00EBB9AF /* WeekPulseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekPulseUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		11F89E772B11056800EBB9AF /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
-		11F89E7F2B123B6000EBB9AF /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
-		11F89E802B123B6000EBB9AF /* TaskTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskTableViewCell.xib; sourceTree = "<group>"; };
-		11F89E922B125FF000EBB9AF /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		2838CD73E6405525FC7D783F /* Pods-WeekPulseTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeekPulseTests.release.xcconfig"; path = "Target Support Files/Pods-WeekPulseTests/Pods-WeekPulseTests.release.xcconfig"; sourceTree = "<group>"; };
 		2ECEFB1C33D0524C30DAB2B0 /* Pods-WeekPulse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeekPulse.release.xcconfig"; path = "Target Support Files/Pods-WeekPulse/Pods-WeekPulse.release.xcconfig"; sourceTree = "<group>"; };
 		3E4A251847D3C35926A986F7 /* Pods_WeekPulse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeekPulse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,11 +140,99 @@
 		118D33202B3F36D0009C8B0B /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				11F89E922B125FF000EBB9AF /* CoreDataManager.swift */,
-				118D33242B407C10009C8B0B /* Animator.swift */,
-				118D33262B4168EF009C8B0B /* NotificationCentr.swift */,
+				11CB0F882B66B78800EFE061 /* Animator.swift */,
+				11CB0F892B66B78900EFE061 /* NotificationManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		11CB0F612B66B3C300EFE061 /* TasksTable */ = {
+			isa = PBXGroup;
+			children = (
+				11CB0F592B66B39F00EFE061 /* TasksTableViewCell.swift */,
+				11CB0F5A2B66B39F00EFE061 /* TasksTableViewCell.xib */,
+			);
+			path = TasksTable;
+			sourceTree = "<group>";
+		};
+		11CB0F622B66B3D900EFE061 /* TaskTable */ = {
+			isa = PBXGroup;
+			children = (
+				11CB0F5B2B66B39F00EFE061 /* TaskTableViewCell.swift */,
+				11CB0F5C2B66B39F00EFE061 /* TaskTableViewCell.xib */,
+			);
+			path = TaskTable;
+			sourceTree = "<group>";
+		};
+		11CB0F632B66B41200EFE061 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				11CB0F722B66B4F600EFE061 /* Manager */,
+				11CB0F742B66B51B00EFE061 /* Models */,
+				11CB0F732B66B50100EFE061 /* Parsers */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		11CB0F722B66B4F600EFE061 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				11CB0F682B66B4DD00EFE061 /* NetworkManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		11CB0F732B66B50100EFE061 /* Parsers */ = {
+			isa = PBXGroup;
+			children = (
+				11CB0F6C2B66B4DD00EFE061 /* ParserTownData.swift */,
+				11CB0F692B66B4DD00EFE061 /* ParserWeatherData.swift */,
+			);
+			path = Parsers;
+			sourceTree = "<group>";
+		};
+		11CB0F742B66B51B00EFE061 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				11CB0F6A2B66B4DD00EFE061 /* NetworkModel.swift */,
+				11CB0F6B2B66B4DD00EFE061 /* TownModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		11CB0F752B66B56600EFE061 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				11CB0F772B66B58500EFE061 /* Manager */,
+				11CB0F762B66B57B00EFE061 /* Model */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		11CB0F762B66B57B00EFE061 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				11CB0F852B66B71300EFE061 /* TaskEntity+CoreDataClass.swift */,
+				11CB0F842B66B71300EFE061 /* TaskEntity+CoreDataProperties.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		11CB0F772B66B58500EFE061 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				11CB0F822B66B68E00EFE061 /* CoreDataManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		11CB0F8C2B66B7B300EFE061 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				11F89E392B0E62C900EBB9AF /* AppDelegate.swift */,
+				11F89E3B2B0E62C900EBB9AF /* SceneDelegate.swift */,
+			);
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 		11F89E2D2B0E62C900EBB9AF = {
@@ -160,13 +260,13 @@
 		11F89E382B0E62C900EBB9AF /* WeekPulse */ = {
 			isa = PBXGroup;
 			children = (
-				11F89E392B0E62C900EBB9AF /* AppDelegate.swift */,
-				11F89E3B2B0E62C900EBB9AF /* SceneDelegate.swift */,
-				118D33202B3F36D0009C8B0B /* Managers */,
+				11CB0F8C2B66B7B300EFE061 /* Delegates */,
 				118D33172B39CE1C009C8B0B /* Protocols */,
+				11CB0F752B66B56600EFE061 /* CoreData */,
+				11CB0F632B66B41200EFE061 /* Networking */,
+				118D33202B3F36D0009C8B0B /* Managers */,
 				11F89E792B123AC500EBB9AF /* ViewControllers */,
 				11F89E7E2B123B3600EBB9AF /* Cells */,
-				11F89E842B125DDA00EBB9AF /* Models */,
 				11F89E3F2B0E62C900EBB9AF /* Main.storyboard */,
 				11F89E452B0E62CA00EBB9AF /* Assets.xcassets */,
 				11F89E472B0E62CA00EBB9AF /* LaunchScreen.storyboard */,
@@ -199,6 +299,7 @@
 				11F89E3D2B0E62C900EBB9AF /* ViewController.swift */,
 				11F89E772B11056800EBB9AF /* TaskViewController.swift */,
 				118D33292B45C8CB009C8B0B /* AllTasksViewController.swift */,
+				113E2AED2B64457900CAA522 /* SearchTownViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -206,21 +307,10 @@
 		11F89E7E2B123B3600EBB9AF /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				11F89E7F2B123B6000EBB9AF /* TaskTableViewCell.swift */,
-				11F89E802B123B6000EBB9AF /* TaskTableViewCell.xib */,
-				118D332D2B470518009C8B0B /* TasksTableViewCell.swift */,
-				118D332E2B470518009C8B0B /* TasksTableViewCell.xib */,
+				11CB0F622B66B3D900EFE061 /* TaskTable */,
+				11CB0F612B66B3C300EFE061 /* TasksTable */,
 			);
 			path = Cells;
-			sourceTree = "<group>";
-		};
-		11F89E842B125DDA00EBB9AF /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				118D32FE2B37595E009C8B0B /* TaskEntity+CoreDataClass.swift */,
-				118D32FD2B37595E009C8B0B /* TaskEntity+CoreDataProperties.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		432A764CB44F3E75100C570E /* Pods */ = {
@@ -355,11 +445,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11CB0F5E2B66B39F00EFE061 /* TasksTableViewCell.xib in Resources */,
 				11F89E492B0E62CA00EBB9AF /* LaunchScreen.storyboard in Resources */,
 				11F89E462B0E62CA00EBB9AF /* Assets.xcassets in Resources */,
 				11F89E412B0E62C900EBB9AF /* Main.storyboard in Resources */,
-				118D33302B470518009C8B0B /* TasksTableViewCell.xib in Resources */,
-				11F89E822B123B6000EBB9AF /* TaskTableViewCell.xib in Resources */,
+				11CB0F602B66B39F00EFE061 /* TaskTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,18 +578,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				11F89E3E2B0E62C900EBB9AF /* ViewController.swift in Sources */,
-				118D32FF2B37595E009C8B0B /* TaskEntity+CoreDataProperties.swift in Sources */,
-				118D33002B37595E009C8B0B /* TaskEntity+CoreDataClass.swift in Sources */,
+				11CB0F872B66B71300EFE061 /* TaskEntity+CoreDataClass.swift in Sources */,
+				11CB0F6D2B66B4DD00EFE061 /* NetworkManager.swift in Sources */,
 				11F89E3A2B0E62C900EBB9AF /* AppDelegate.swift in Sources */,
-				11F89E812B123B6000EBB9AF /* TaskTableViewCell.swift in Sources */,
+				11CB0F8B2B66B78900EFE061 /* NotificationManager.swift in Sources */,
+				11CB0F6E2B66B4DD00EFE061 /* ParserWeatherData.swift in Sources */,
+				11CB0F832B66B68E00EFE061 /* CoreDataManager.swift in Sources */,
 				11F89E782B11056800EBB9AF /* TaskViewController.swift in Sources */,
-				118D332F2B470518009C8B0B /* TasksTableViewCell.swift in Sources */,
-				11F89E932B125FF000EBB9AF /* CoreDataManager.swift in Sources */,
+				113E2AEE2B64457900CAA522 /* SearchTownViewController.swift in Sources */,
 				11F89E3C2B0E62C900EBB9AF /* SceneDelegate.swift in Sources */,
+				11CB0F702B66B4DD00EFE061 /* TownModel.swift in Sources */,
+				11CB0F5D2B66B39F00EFE061 /* TasksTableViewCell.swift in Sources */,
+				11CB0F8A2B66B78900EFE061 /* Animator.swift in Sources */,
+				11CB0F712B66B4DD00EFE061 /* ParserTownData.swift in Sources */,
 				118D33192B39CF1B009C8B0B /* ToTaskVCProtocol.swift in Sources */,
 				118D332A2B45C8CB009C8B0B /* AllTasksViewController.swift in Sources */,
-				118D33272B4168EF009C8B0B /* NotificationCentr.swift in Sources */,
-				118D33252B407C10009C8B0B /* Animator.swift in Sources */,
+				11CB0F5F2B66B39F00EFE061 /* TaskTableViewCell.swift in Sources */,
+				11CB0F862B66B71300EFE061 /* TaskEntity+CoreDataProperties.swift in Sources */,
+				11CB0F6F2B66B4DD00EFE061 /* NetworkModel.swift in Sources */,
 				11F89E442B0E62C900EBB9AF /* WeekPulse.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
