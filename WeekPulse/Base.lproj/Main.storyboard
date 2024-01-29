@@ -585,7 +585,7 @@
             </objects>
             <point key="canvasLocation" x="1990" y="732"/>
         </scene>
-        <!--Weather-->
+        <!--Title-->
         <scene sceneID="D5n-me-Ctg">
             <objects>
                 <viewController id="nYd-jy-hsP" customClass="WeatherViewController" customModule="WeekPulse" customModuleProvider="target" sceneMemberID="viewController">
@@ -596,25 +596,34 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="7l1-eF-ivd">
                                 <rect key="frame" x="0.0" y="59" width="393" height="710"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="agr-KZ-6Ur">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zu6-yd-c3f"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="zu6-yd-c3f" firstAttribute="bottom" secondItem="7l1-eF-ivd" secondAttribute="bottom" id="JlU-YQ-ZBi"/>
-                            <constraint firstItem="7l1-eF-ivd" firstAttribute="top" secondItem="zu6-yd-c3f" secondAttribute="top" id="ZjZ-D7-IL0"/>
+                            <constraint firstItem="7l1-eF-ivd" firstAttribute="top" secondItem="zu6-yd-c3f" secondAttribute="top" id="Ouc-D3-3LM"/>
                             <constraint firstItem="7l1-eF-ivd" firstAttribute="leading" secondItem="zu6-yd-c3f" secondAttribute="leading" id="stR-pV-3MQ"/>
                             <constraint firstItem="zu6-yd-c3f" firstAttribute="trailing" secondItem="7l1-eF-ivd" secondAttribute="trailing" id="wjP-zK-75Y"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Weather" image="sun.horizon" catalog="system" id="s7z-7u-d6F"/>
+                    <navigationItem key="navigationItem" title="Title" id="FoP-Ex-izM"/>
                     <connections>
+                        <outlet property="townLabel" destination="agr-KZ-6Ur" id="gUw-nP-Sbb"/>
                         <outlet property="weatherTable" destination="7l1-eF-ivd" id="xXz-FV-eYu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EB5-dR-nlT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2801" y="732"/>
+            <point key="canvasLocation" x="2800.7633587786258" y="731.69014084507046"/>
         </scene>
         <!--All tasks-->
         <scene sceneID="q8Q-cH-cIr">

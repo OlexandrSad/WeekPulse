@@ -25,6 +25,8 @@
 		11CB0F8A2B66B78900EFE061 /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F882B66B78800EFE061 /* Animator.swift */; };
 		11CB0F8B2B66B78900EFE061 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F892B66B78900EFE061 /* NotificationManager.swift */; };
 		11CB0F8E2B66C35500EFE061 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F8D2B66C35500EFE061 /* WeatherViewController.swift */; };
+		11CB0F912B677D8A00EFE061 /* WeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F8F2B677D8A00EFE061 /* WeatherTableViewCell.swift */; };
+		11CB0F922B677D8A00EFE061 /* WeatherTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11CB0F902B677D8A00EFE061 /* WeatherTableViewCell.xib */; };
 		11F89E3A2B0E62C900EBB9AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E392B0E62C900EBB9AF /* AppDelegate.swift */; };
 		11F89E3C2B0E62C900EBB9AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E3B2B0E62C900EBB9AF /* SceneDelegate.swift */; };
 		11F89E3E2B0E62C900EBB9AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E3D2B0E62C900EBB9AF /* ViewController.swift */; };
@@ -78,6 +80,8 @@
 		11CB0F882B66B78800EFE061 /* Animator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
 		11CB0F892B66B78900EFE061 /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		11CB0F8D2B66C35500EFE061 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
+		11CB0F8F2B677D8A00EFE061 /* WeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WeatherTableViewCell.swift; path = WeekPulse/Cells/WeatherTable/WeatherTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		11CB0F902B677D8A00EFE061 /* WeatherTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WeatherTableViewCell.xib; path = WeekPulse/Cells/WeatherTable/WeatherTableViewCell.xib; sourceTree = SOURCE_ROOT; };
 		11F89E362B0E62C900EBB9AF /* WeekPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeekPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11F89E392B0E62C900EBB9AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		11F89E3B2B0E62C900EBB9AF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -237,6 +241,15 @@
 			path = Delegates;
 			sourceTree = "<group>";
 		};
+		11CB0F932B677D9900EFE061 /* WeatherTable */ = {
+			isa = PBXGroup;
+			children = (
+				11CB0F8F2B677D8A00EFE061 /* WeatherTableViewCell.swift */,
+				11CB0F902B677D8A00EFE061 /* WeatherTableViewCell.xib */,
+			);
+			path = WeatherTable;
+			sourceTree = "<group>";
+		};
 		11F89E2D2B0E62C900EBB9AF = {
 			isa = PBXGroup;
 			children = (
@@ -310,6 +323,7 @@
 		11F89E7E2B123B3600EBB9AF /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				11CB0F932B677D9900EFE061 /* WeatherTable */,
 				11CB0F622B66B3D900EFE061 /* TaskTable */,
 				11CB0F612B66B3C300EFE061 /* TasksTable */,
 			);
@@ -452,6 +466,7 @@
 				11F89E492B0E62CA00EBB9AF /* LaunchScreen.storyboard in Resources */,
 				11F89E462B0E62CA00EBB9AF /* Assets.xcassets in Resources */,
 				11F89E412B0E62C900EBB9AF /* Main.storyboard in Resources */,
+				11CB0F922B677D8A00EFE061 /* WeatherTableViewCell.xib in Resources */,
 				11CB0F602B66B39F00EFE061 /* TaskTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -582,6 +597,7 @@
 			files = (
 				11F89E3E2B0E62C900EBB9AF /* ViewController.swift in Sources */,
 				11CB0F872B66B71300EFE061 /* TaskEntity+CoreDataClass.swift in Sources */,
+				11CB0F912B677D8A00EFE061 /* WeatherTableViewCell.swift in Sources */,
 				11CB0F6D2B66B4DD00EFE061 /* NetworkManager.swift in Sources */,
 				11F89E3A2B0E62C900EBB9AF /* AppDelegate.swift in Sources */,
 				11CB0F8E2B66C35500EFE061 /* WeatherViewController.swift in Sources */,

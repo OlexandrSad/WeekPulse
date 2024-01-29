@@ -25,18 +25,20 @@ class ParserWeatherData {
             
             let stringsArray = createStringArray(array: selectedArray, indexInArrays: indexOfChosedArray, arraysCount: arrays.count)
             
-            timeLeftLabel.text = stringsArray[0]
-            timeCentrLabel.text = stringsArray[1]
-            timeRightLabel.text = stringsArray[2]
-            tempLeftLabel.text = stringsArray[3]
-            windLeftLabel.text = stringsArray[4]
-            leftImageView.image = UIImage(named: stringsArray[5])
-            tempCentrLabel.text = stringsArray[6]
-            windCentrLabel.text = stringsArray[7]
-            centrImageView.image = UIImage(named: stringsArray[8])
-            tempRightLabel.text = stringsArray[9]
-            windRightLabel.text = stringsArray[10]
-            rightImageView.image = UIImage(named: stringsArray[11])
+            timeLeftLabel.text = stringsArray[0][0]
+            tempLeftLabel.text = stringsArray[0][1]
+            windLeftLabel.text = stringsArray[0][2]
+            leftImageView.image = UIImage(named: stringsArray[0][3])
+            
+            timeCentrLabel.text = stringsArray[1][0]
+            tempCentrLabel.text = stringsArray[1][1]
+            windCentrLabel.text = stringsArray[1][2]
+            centrImageView.image = UIImage(named: stringsArray[1][3])
+            
+            timeRightLabel.text = stringsArray[2][0]
+            tempRightLabel.text = stringsArray[2][1]
+            windRightLabel.text = stringsArray[2][2]
+            rightImageView.image = UIImage(named: stringsArray[2][3])
         } else {
             timeLeftLabel.text = "-"
             timeCentrLabel.text = "-"
@@ -66,10 +68,8 @@ class ParserWeatherData {
             if tempDay == shortDay {
                 if arrays.isEmpty {
                     arrays.append([])
-                    arrays[count].append(element)
-                } else {
-                    arrays[count].append(element)
                 }
+                arrays[count].append(element)
             } else {
                 arrays.append([])
                 count += 1
@@ -97,8 +97,8 @@ class ParserWeatherData {
     }
     
     
-    private func createStringArray(array: [List], indexInArrays: Int, arraysCount: Int) -> [String] {
-        var stringArray = [String]()
+    private func createStringArray(array: [List], indexInArrays: Int, arraysCount: Int) -> [[String]] {
+        var stringArray = [[String]]()
         
         if arraysCount == 5 {
             stringArray = fullArray(array: array, timePoints: ["03:00", "12:00", "21:00"], index1: 1, index2: 4, index3: 7)
@@ -115,24 +115,29 @@ class ParserWeatherData {
     }
     
     
-    private func fullArray(array: [List], timePoints: [String], index1: Int?, index2: Int?, index3: Int?) -> [String] {
-        var stringArray = timePoints
+    private func fullArray(array: [List], timePoints: [String], index1: Int?, index2: Int?, index3: Int?) -> [[String]] {
+        var arrays = [[String]]()
         let indexes = [index1, index2, index3]
-        for index in indexes {
-            let temp = index != nil ? array[index!].main?.temp : nil
-            let wind = index != nil ? array[index!].wind?.speed : nil
-            let icon = index != nil ? array[index!].weather?[0].icon : nil
+        for (index, value) in indexes.enumerated() {
+            var stringArray = [String]()
+            let temp = value != nil ? array[value!].main?.temp : nil
+            let wind = value != nil ? array[value!].wind?.speed : nil
+            let icon = value != nil ? array[value!].weather?[0].icon : nil
+            let cond = value != nil ? array[value!].weather?[0].description : nil
             
-            stringArray.append(index != nil ? String(format: "%.1f", temp!) : "-")
-            stringArray.append(index != nil ? String(wind!) : "-")
-            stringArray.append(index != nil ? String(icon!) : "-")
+            stringArray.append(timePoints[index])
+            stringArray.append(value != nil ? String(format: "%.1f", temp!) : "-")
+            stringArray.append(value != nil ? String(wind!) : "-")
+            stringArray.append(value != nil ? String(icon!) : "-")
+            stringArray.append(value != nil ? String(cond!) : "-")
+            arrays.append(stringArray)
         }
-        return stringArray
+        return arrays
     }
     
     
-    private func startArray(array: [List]) -> [String]  {
-        var stringArray = [String]()
+    private func startArray(array: [List]) -> [[String]]  {
+        var stringArray = [[String]]()
         switch array.count {
         case 7:
             stringArray = fullArray(array: array, timePoints: ["03:00", "12:00", "21:00"], index1: 0, index2: 3, index3: 6)
@@ -155,8 +160,8 @@ class ParserWeatherData {
     }
     
     
-    private func endArray(array: [List]) -> [String] {
-        var stringArray = [String]()
+    private func endArray(array: [List]) -> [[String]] {
+        var stringArray = [[String]]()
         switch array.count {
         case 7:
             stringArray = fullArray(array: array, timePoints: ["03:00", "12:00", "18:00"], index1: 1, index2: 4, index3: 6)
@@ -176,6 +181,23 @@ class ParserWeatherData {
             break
         }
         return stringArray
+    }
+    
+    
+    func arrayForWeatherVC(weatherData: WeatherData) -> [[String: [[String]]]] {
+        var arrayDict = [[String: [[String]]]]()
+        let arrays = createArrays(weatherData: weatherData)
+        for (index, array) in arrays.enumerated() {
+            let date = String(arrays[index].first?.date?.prefix(10) ?? "")
+            var stringsArray = createStringArray(array: array, indexInArrays: index, arraysCount: arrays.count)
+            for (index, element) in stringsArray.enumerated() {
+                if element[0] == "-" {
+                    stringsArray.remove(at: index)
+                }
+            }
+            arrayDict.append([date: stringsArray])
+        }
+        return arrayDict
     }
     
 }

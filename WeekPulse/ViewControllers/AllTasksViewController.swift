@@ -28,8 +28,6 @@ class AllTasksViewController: UIViewController {
         tasksTable.register(nib, forCellReuseIdentifier: "TasksCell")
         
         fetchedResultController.delegate = self
-        
-        navigationItem.title = "All tasks"
     }
     
     
@@ -125,7 +123,7 @@ class AllTasksViewController: UIViewController {
               let dedlineStr = task.dedlineStr,
               let dedline = task.dedline,
               let descript = task.descript else { return }
-        coreDataManager.UpdateOrCreateTask(title: title,
+         let currentTask = coreDataManager.UpdateOrCreateTask(title: title,
                                            ptiority: Int(task.priority),
                                            dedline: dedline,
                                            dedlineStr: dedlineStr,
