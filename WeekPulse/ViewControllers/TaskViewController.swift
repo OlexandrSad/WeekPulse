@@ -255,7 +255,19 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     }
     
     
-    @IBAction func saveButton(_ sender: Any) {
+    private func saveAlert() {
+        let alert = UIAlertController(title: "Save task", message: "Are you sure?", preferredStyle: .alert)
+        let actionCancel = UIAlertAction(title: "Cancel", style: .cancel)
+        let actionOK = UIAlertAction(title: "Ok", style: .default) { [weak self] _ in
+            self?.saveTaskAndSetNotification()
+        }
+        alert.addAction(actionCancel)
+        alert.addAction(actionOK)
+        self.present(alert, animated: true)
+    }
+    
+    
+    private func saveTaskAndSetNotification() {
         guard let title = titleTextField.text, title != "" else { alertNoTitle(view: titleTextField)
             return }
         
@@ -269,22 +281,18 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
             desctipt = descrTextView.text
         }
         
-        let alert = UIAlertController(title: "Save task", message: "Are you sure?", preferredStyle: .alert)
-        let actionCancel = UIAlertAction(title: "Cancel", style: .cancel)
-        let actionOK = UIAlertAction(title: "Ok", style: .default) { [weak self] _ in
-           
-            let taskForNotification = CoreDataManager.shared.UpdateOrCreateTask(title: title, ptiority: priority, dedline: date,
-                                                                                dedlineStr: dedlineStr, descript: desctipt, taskEntity: self?.task)
-            if let task = taskForNotification {
-                NotificationManager.shared.setNotification(for: task)
-            }
-            
-            self?.navigationController?.popViewController(animated: true)
-        }
+        let taskForNotification = CoreDataManager.shared.UpdateOrCreateTask(title: title, ptiority: priority, dedline: date,
+                                                                            dedlineStr: dedlineStr, descript: desctipt, taskEntity: self.task)
         
-        alert.addAction(actionCancel)
-        alert.addAction(actionOK)
-        self.present(alert, animated: true)
+        if let task = taskForNotification {
+            NotificationManager.shared.setNotification(for: task)
+        }
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    
+    @IBAction func saveButton(_ sender: Any) {
+        saveAlert()
     }
     
     
@@ -301,9 +309,7 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
                 self?.longitude = coordinate[1]
                 self?.setWeather(lat: coordinate[0], lon: coordinate[1])
             }
-
         }
-        
         present(townVC, animated: true)
     }
     

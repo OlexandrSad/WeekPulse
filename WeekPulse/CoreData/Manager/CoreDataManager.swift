@@ -12,7 +12,7 @@ class CoreDataManager {
     
     static var shared = CoreDataManager()
     private init(){}
-
+    
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "WeekPulse")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -22,13 +22,13 @@ class CoreDataManager {
         })
         return container
     }()
-
+    
     lazy var viewContex = persistentContainer.viewContext
-
+    
     
     func saveContext () {
         let context = persistentContainer.viewContext
-       
+        
         if context.hasChanges {
             do {
                 try context.save()
@@ -40,6 +40,8 @@ class CoreDataManager {
     }
     
     
+// MARK: - CRUD Task
+    
     func UpdateOrCreateTask(title: String, ptiority: Int, dedline: Date, dedlineStr: String, descript: String, taskEntity: TaskEntity?) -> TaskEntity? {
         var returnTask: TaskEntity?
         do {
@@ -48,7 +50,7 @@ class CoreDataManager {
                 request.predicate = NSPredicate(format: "id = %@", id)
                 let tasksFromDB = try viewContex.fetch(request)
                 
-                assert(tasksFromDB.count == 1, "There are duplicates in DB!")
+                assert(tasksFromDB.count == 1, "There are duplicate Tasks in the DB!")
                 
                 guard let taskFromDB = tasksFromDB.first else {
                     print("Task with given ID not found.")
@@ -118,7 +120,7 @@ class CoreDataManager {
         dateFormatter.dateFormat = "YYYY-MM-dd (EEEE)"
         let startOfToday = Calendar.current.startOfDay(for: today)
         let startOfChosedDay = Calendar.current.startOfDay(for: chosedDay)
-      
+        
         guard startOfToday == startOfChosedDay else { return }
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         fetchRequest.predicate = NSPredicate(format: "dedline < %@", startOfToday as CVarArg)
@@ -137,6 +139,70 @@ class CoreDataManager {
             saveContext()
         } catch {
             print("Error fetching in checkExpiredTask: \(error.localizedDescription)")
+        }
+    }
+
+    
+// MARK: - CRUD Settings
+    
+    func createSettings() {
+        let fetchRequest: NSFetchRequest<SettingsEntity> = SettingsEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = %@", "Settings")
+        do {
+            let settings = try viewContex.fetch(fetchRequest)
+            
+            assert(settings.count <= 1, "There are duplicate Settings in the DB!")
+            
+            if settings.isEmpty {
+                let newSettings = SettingsEntity(context: viewContex)
+                newSettings.lat = "50.4501"
+                newSettings.lon = "30.5234"
+                newSettings.minutes = 5
+                newSettings.showFirst = 0
+                newSettings.showWeath = true
+                newSettings.town = "Kyiv, UA"
+                newSettings.id = "Settings"
+                
+                try viewContex.save()
+            }
+        } catch {
+            print("Error fetching or creating SettingsEntity: \(error)")
+        }
+    }
+    
+    
+    func getSettings() -> SettingsEntity? {
+        var setting: SettingsEntity?
+        let fetchRequest: NSFetchRequest<SettingsEntity> = SettingsEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = %@", "Settings")
+        do {
+            let settings = try viewContex.fetch(fetchRequest)
+            if let entity = settings.first {
+                setting = entity
+            }
+        } catch {
+            print("Error fetching SettingsEntity: \(error)")
+        }
+        return setting
+    }
+    
+    
+    func saveSettings(minutes: Int, showWeath: Bool, town: String, lat: String, lon: String, shosFirst: Int) {
+        let fetchRequest: NSFetchRequest<SettingsEntity> = SettingsEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = %@", "Settings")
+        do {
+            let settingsArray = try viewContex.fetch(fetchRequest)
+            if let settings = settingsArray.first {
+                settings.minutes = Int16(minutes)
+                settings.showWeath = showWeath
+                settings.town = town
+                settings.lat = lat
+                settings.lon = lon
+                settings.showFirst = Int16(shosFirst)
+            }
+            saveContext()
+        } catch {
+            print("Error saving SettingsEntity: \(error)")
         }
     }
     

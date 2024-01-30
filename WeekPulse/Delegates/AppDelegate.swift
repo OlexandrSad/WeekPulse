@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let notificationCentr = NotificationManager.shared
         notificationCentr.requestAuthorization()
         notificationCentr.notificationCentr.delegate = self
+        CoreDataManager.shared.createSettings()
         return true
     }
 

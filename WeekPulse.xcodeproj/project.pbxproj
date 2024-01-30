@@ -27,6 +27,9 @@
 		11CB0F8E2B66C35500EFE061 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F8D2B66C35500EFE061 /* WeatherViewController.swift */; };
 		11CB0F912B677D8A00EFE061 /* WeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F8F2B677D8A00EFE061 /* WeatherTableViewCell.swift */; };
 		11CB0F922B677D8A00EFE061 /* WeatherTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11CB0F902B677D8A00EFE061 /* WeatherTableViewCell.xib */; };
+		11CB0F952B67C9F300EFE061 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F942B67C9F300EFE061 /* SettingsViewController.swift */; };
+		11CB0F9F2B6807C600EFE061 /* SettingsEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F9D2B6807C500EFE061 /* SettingsEntity+CoreDataProperties.swift */; };
+		11CB0FA02B6807C600EFE061 /* SettingsEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB0F9E2B6807C500EFE061 /* SettingsEntity+CoreDataClass.swift */; };
 		11F89E3A2B0E62C900EBB9AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E392B0E62C900EBB9AF /* AppDelegate.swift */; };
 		11F89E3C2B0E62C900EBB9AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E3B2B0E62C900EBB9AF /* SceneDelegate.swift */; };
 		11F89E3E2B0E62C900EBB9AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F89E3D2B0E62C900EBB9AF /* ViewController.swift */; };
@@ -82,6 +85,9 @@
 		11CB0F8D2B66C35500EFE061 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		11CB0F8F2B677D8A00EFE061 /* WeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WeatherTableViewCell.swift; path = WeekPulse/Cells/WeatherTable/WeatherTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		11CB0F902B677D8A00EFE061 /* WeatherTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WeatherTableViewCell.xib; path = WeekPulse/Cells/WeatherTable/WeatherTableViewCell.xib; sourceTree = SOURCE_ROOT; };
+		11CB0F942B67C9F300EFE061 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		11CB0F9D2B6807C500EFE061 /* SettingsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		11CB0F9E2B6807C500EFE061 /* SettingsEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingsEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		11F89E362B0E62C900EBB9AF /* WeekPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeekPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11F89E392B0E62C900EBB9AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		11F89E3B2B0E62C900EBB9AF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -210,18 +216,18 @@
 			isa = PBXGroup;
 			children = (
 				11CB0F772B66B58500EFE061 /* Manager */,
-				11CB0F762B66B57B00EFE061 /* Model */,
+				11CB0F762B66B57B00EFE061 /* Models */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
 		};
-		11CB0F762B66B57B00EFE061 /* Model */ = {
+		11CB0F762B66B57B00EFE061 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				11CB0F852B66B71300EFE061 /* TaskEntity+CoreDataClass.swift */,
-				11CB0F842B66B71300EFE061 /* TaskEntity+CoreDataProperties.swift */,
+				11CB0F972B68019100EFE061 /* Settings */,
+				11CB0F962B68018100EFE061 /* Task */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		11CB0F772B66B58500EFE061 /* Manager */ = {
@@ -248,6 +254,24 @@
 				11CB0F902B677D8A00EFE061 /* WeatherTableViewCell.xib */,
 			);
 			path = WeatherTable;
+			sourceTree = "<group>";
+		};
+		11CB0F962B68018100EFE061 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				11CB0F852B66B71300EFE061 /* TaskEntity+CoreDataClass.swift */,
+				11CB0F842B66B71300EFE061 /* TaskEntity+CoreDataProperties.swift */,
+			);
+			path = Task;
+			sourceTree = "<group>";
+		};
+		11CB0F972B68019100EFE061 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				11CB0F9E2B6807C500EFE061 /* SettingsEntity+CoreDataClass.swift */,
+				11CB0F9D2B6807C500EFE061 /* SettingsEntity+CoreDataProperties.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		11F89E2D2B0E62C900EBB9AF = {
@@ -316,6 +340,7 @@
 				118D33292B45C8CB009C8B0B /* AllTasksViewController.swift */,
 				113E2AED2B64457900CAA522 /* SearchTownViewController.swift */,
 				11CB0F8D2B66C35500EFE061 /* WeatherViewController.swift */,
+				11CB0F942B67C9F300EFE061 /* SettingsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -598,6 +623,7 @@
 				11F89E3E2B0E62C900EBB9AF /* ViewController.swift in Sources */,
 				11CB0F872B66B71300EFE061 /* TaskEntity+CoreDataClass.swift in Sources */,
 				11CB0F912B677D8A00EFE061 /* WeatherTableViewCell.swift in Sources */,
+				11CB0FA02B6807C600EFE061 /* SettingsEntity+CoreDataClass.swift in Sources */,
 				11CB0F6D2B66B4DD00EFE061 /* NetworkManager.swift in Sources */,
 				11F89E3A2B0E62C900EBB9AF /* AppDelegate.swift in Sources */,
 				11CB0F8E2B66C35500EFE061 /* WeatherViewController.swift in Sources */,
@@ -606,10 +632,12 @@
 				11CB0F832B66B68E00EFE061 /* CoreDataManager.swift in Sources */,
 				11F89E782B11056800EBB9AF /* TaskViewController.swift in Sources */,
 				113E2AEE2B64457900CAA522 /* SearchTownViewController.swift in Sources */,
+				11CB0F9F2B6807C600EFE061 /* SettingsEntity+CoreDataProperties.swift in Sources */,
 				11F89E3C2B0E62C900EBB9AF /* SceneDelegate.swift in Sources */,
 				11CB0F702B66B4DD00EFE061 /* TownModel.swift in Sources */,
 				11CB0F5D2B66B39F00EFE061 /* TasksTableViewCell.swift in Sources */,
 				11CB0F8A2B66B78900EFE061 /* Animator.swift in Sources */,
+				11CB0F952B67C9F300EFE061 /* SettingsViewController.swift in Sources */,
 				11CB0F712B66B4DD00EFE061 /* ParserTownData.swift in Sources */,
 				118D33192B39CF1B009C8B0B /* ToTaskVCProtocol.swift in Sources */,
 				118D332A2B45C8CB009C8B0B /* AllTasksViewController.swift in Sources */,

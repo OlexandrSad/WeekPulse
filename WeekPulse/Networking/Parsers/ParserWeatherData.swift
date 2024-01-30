@@ -190,12 +190,13 @@ class ParserWeatherData {
         for (index, array) in arrays.enumerated() {
             let date = String(arrays[index].first?.date?.prefix(10) ?? "")
             var stringsArray = createStringArray(array: array, indexInArrays: index, arraysCount: arrays.count)
+            var tmpArray = [[String]]()
             for (index, element) in stringsArray.enumerated() {
-                if element[0] == "-" {
-                    stringsArray.remove(at: index)
+                if element[0] != "-" {
+                    tmpArray.append(element)
                 }
             }
-            arrayDict.append([date: stringsArray])
+            arrayDict.append([date: tmpArray])
         }
         return arrayDict
     }

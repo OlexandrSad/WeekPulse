@@ -18,8 +18,6 @@ class WeatherTableViewCell: UITableViewCell {
     @IBOutlet weak var conditionLabel: UILabel!
     
     
-    
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         tempConstLabel.text = "t, ℃"
