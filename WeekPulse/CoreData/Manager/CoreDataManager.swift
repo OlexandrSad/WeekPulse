@@ -141,6 +141,19 @@ class CoreDataManager {
             print("Error fetching in checkExpiredTask: \(error.localizedDescription)")
         }
     }
+    
+    
+    func getAllTasks(entityName: String, contex: NSManagedObjectContext) -> [TaskEntity] {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        do {
+            if let tasks = try contex.fetch(fetchRequest) as? [TaskEntity], !tasks.isEmpty {
+                return tasks
+            }
+        } catch {
+            print("Error fetching Tasks: \(error.localizedDescription)")
+        }
+        return []
+    }
 
     
 // MARK: - CRUD Settings

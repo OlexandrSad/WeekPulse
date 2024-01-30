@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     
     func sceneDidBecomeActive(_ scene: UIScene) {
-        UIApplication.shared.applicationIconBadgeNumber = 0
+        resetAppBadge()
         
         guard let windowScene = (scene as? UIWindowScene), sceneDidResign == true else { return }
         if let tabBarController = windowScene.windows.first?.rootViewController as? UITabBarController,
@@ -44,6 +44,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func sceneDidEnterBackground(_ scene: UIScene) {
         CoreDataManager.shared.saveContext()
+    }
+    
+    
+    func resetAppBadge() {
+        let center = UNUserNotificationCenter.current()
+        center.setBadgeCount(0, withCompletionHandler: nil)
     }
 
 }

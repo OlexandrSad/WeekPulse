@@ -33,9 +33,9 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     let titlePlaceholder = "Enter task title"
     let descrPlaceholder = "1. Enter task description\n2.\n3.\n..."
     let colorPriority: [UIColor] = [.green, .yellow, .red]
-    var town = "Kyiv, UA"
-    var latitude = "50.4501"
-    var longitude = "30.5234"
+    var town: String?
+    var latitude: String?
+    var longitude: String?
     var counterTitleChars = 0 {
         didSet {
             countLabel.text = "\(counterTitleChars)/\(maxLenghtTitle)"
@@ -45,14 +45,15 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     let today = Date()
     let calendar = Calendar.current
     let dateFormatter = DateFormatter()
+    let networkManger = NetworkManager.shared
+    let settings = CoreDataManager.shared.getSettings()
     var dateFromVC: Date?
     var task: TaskEntity?
     var whoCreated: String?
-    let networkManger = NetworkManager.shared
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setWeatherSettings()
         setTitleTF(textField: titleTextField, task: task)
         setDescrTV(textView: descrTextView, task: task)
         setCountLabel(label: countLabel, task: task)
@@ -69,7 +70,11 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        titleTextField.becomeFirstResponder()
+        if settings?.showWeath == true, settings?.showFirst == 0 {
+            titleTextField.becomeFirstResponder()
+        } else if settings?.showWeath == false {
+            titleTextField.becomeFirstResponder()
+        }
     }
     
     
@@ -81,6 +86,13 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     
     @objc func hideAllKeyboard() {
         view.endEditing(true)
+    }
+    
+    
+    private func setWeatherSettings() {
+        town = settings?.town
+        latitude = settings?.lat
+        longitude = settings?.lon
     }
     
     
@@ -179,6 +191,9 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
 
     
     private func removeWeather(task: TaskEntity?, date: Date?, textView: UITextView?, label: UILabel, stack: UIStackView) {
+        
+        guard settings?.showWeath == true else {removeViews(textView: textView, label: label, stack: stack)
+            return }
         if let task = task, let dedline = task.dedline {
             let components = calendar.dateComponents([.year, .month, .day], from: Date())
             let startToday = calendar.date(from: components) ?? Date()
@@ -222,7 +237,9 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
     }
     
     
-    private func setWeather(lat: String, lon: String) {
+    private func setWeather(lat: String?, lon: String?) {
+        
+        guard let lat = lat, let lon = lon, let town = town else { return }
         networkManger.fetchWeatherData(lat: lat, lon: lon) { [weak self] result in
             
             guard let self = self else { return }
@@ -230,7 +247,7 @@ class TaskViewController: UIViewController, ToTaskVCProtocol {
             switch result {
             case .success(let weatherData):
                 guard let dateFromVC = self.dateFromVC, self.weatherStack != nil else { return }
-                ParserWeatherData().setViews(weatherData: weatherData, weatherLabel: self.weatherLabel, town: self.town, dayVC: dateFromVC,
+                ParserWeatherData().setViews(weatherData: weatherData, weatherLabel: self.weatherLabel, town: town, dayVC: dateFromVC,
                                              timeLeftLabel: self.timeLeftLabel, timeCentrLabel: self.timeCentrLabel, timeRightLabel: self.timeRightLabel,
                                              tempLeftLabel: self.tempLeftLabel, tempCentrLabel: self.tempCentrLabel, tempRightLabel: self.tempRightLabel,
                                              windLeftLabel: self.windLeftLabel, windCentrLabel: self.windCentrLabel, windRightLabel: self.windRightLabel,

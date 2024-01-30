@@ -14,7 +14,6 @@ class NotificationManager {
     static var shared = NotificationManager()
     private init(){}
     
-    let minutes = 5
     let notificationCentr = UNUserNotificationCenter.current()
     
     
@@ -30,13 +29,14 @@ class NotificationManager {
     
     
     func setNotification(for task: TaskEntity) {
+        guard let minutes = CoreDataManager.shared.getSettings()?.minutes else { return }
         let calendar = Calendar.current
         let currentDate = Date()
         let futureDate = task.dedline ?? Date()
         var timeDifference = calendar.dateComponents([.second], from: currentDate, to: futureDate)
        
         if let seconds = timeDifference.second {
-            let newSeconds = max(seconds - (minutes*60), 0)
+            let newSeconds = max(seconds - (Int(minutes)*60), 0)
             timeDifference.second = newSeconds
         }
         let title = task.title?.prefix(10)
@@ -44,7 +44,7 @@ class NotificationManager {
         guard let timeInterval = timeDifference.second, timeInterval > 0, let id = task.id, let title = title else { return }
         let content = UNMutableNotificationContent()
         content.title = "Task \"\(String(describing: title))\""
-        content.body = "will be expired in \(minutes) minutes"
+        content.body = "will be expired in \(Int(minutes)) minutes"
         content.sound = UNNotificationSound.default
         content.badge = 1
         let trigger  = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(timeInterval), repeats: false)
@@ -63,7 +63,7 @@ class NotificationManager {
             notificationCentr.removePendingNotificationRequests(withIdentifiers: [id])
         }
     }
-    
+
 }
 
 

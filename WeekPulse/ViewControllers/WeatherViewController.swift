@@ -12,10 +12,11 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var weatherTable: UITableView!
     @IBOutlet weak var townLabel: UILabel!
     
-    var town = "Kyiv, UA"
-    var latitude = "50.4501"
-    var longitude = "30.5234"
     let networkManger = NetworkManager.shared
+    let settings = CoreDataManager.shared.getSettings()
+    var town: String?
+    var latitude: String?
+    var longitude: String?
     var sourseArray = [[String: [[String]]]]() {
         didSet {
             weatherTable.reloadData()
@@ -25,9 +26,16 @@ class WeatherViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setWeatherSettings()
         townLabel.text = town
         setTable()
     }
+    
     
     private func setTable() {
         weatherTable.delegate = self
@@ -40,7 +48,15 @@ class WeatherViewController: UIViewController {
     }
     
     
-    private func createDataArray(lat: String, lon: String, completion: @escaping ([[String: [[String]]]]) -> Void) {
+    private func setWeatherSettings() {
+        town = settings?.town
+        latitude = settings?.lat
+        longitude = settings?.lon
+    }
+    
+    
+    private func createDataArray(lat: String?, lon: String?, completion: @escaping ([[String: [[String]]]]) -> Void) {
+        guard let lat = lat, let lon = lon else { return }
         var array = [[String: [[String]]]]()
         networkManger.fetchWeatherData(lat: lat, lon: lon) { result in
             switch result {

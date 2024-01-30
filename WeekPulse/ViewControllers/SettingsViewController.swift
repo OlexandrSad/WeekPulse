@@ -17,13 +17,20 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var showFirstLabel: UILabel!
     @IBOutlet weak var showFirstSegment: UISegmentedControl!
     
+    let coreDataManager = CoreDataManager.shared
+    let notificationManager = NotificationManager.shared
+    let firstSegment = "Keyboard"
+    let secondSegment = "Weather"
+    var notyfyTimeWasChanged = false
     var settings = CoreDataManager.shared.getSettings()
     var latitude: String?
     var longitude: String?
-    var minutes: Int?
-    let coreDataManager = CoreDataManager.shared
-    let firstSegment = "Keyboard"
-    let secondSegment = "Weather"
+    var minutes = CoreDataManager.shared.getSettings()?.minutes {
+        didSet {
+            notyfyTimeWasChanged = true
+        }
+    }
+    
     
     
     
@@ -71,12 +78,11 @@ class SettingsViewController: UIViewController {
     
     
     private func setViews(settings: SettingsEntity?) {
-        guard let settings = settings else { return }
+        guard let settings = settings, let minutes = minutes else { return }
         notifyPicker.delegate = self
         notifyPicker.dataSource = self
        
-        let minits = Int(settings.minutes)
-        minutes = minits
+        let minits = Int(minutes)
         notifyPicker.selectRow(minits - 1, inComponent: 0, animated: false)
         
         showWeatherSwitch.isOn = settings.showWeath
@@ -139,8 +145,8 @@ class SettingsViewController: UIViewController {
               let lon = longitude,
               let minutes = minutes
         else { return }
-
-        coreDataManager.saveSettings(minutes: minutes, showWeath: showWeatherSwitch.isOn, town: town,
+        let minits = Int(minutes)
+        coreDataManager.saveSettings(minutes: minits, showWeath: showWeatherSwitch.isOn, town: town,
                                      lat: lat, lon: lon, shosFirst: showFirstSegment.selectedSegmentIndex)
         
         self.navigationController?.popViewController(animated: true)
@@ -149,6 +155,13 @@ class SettingsViewController: UIViewController {
     
     @IBAction func saveButton(_ sender: Any) {
         saveAlert()
+        
+        if notyfyTimeWasChanged {
+           let tasks = coreDataManager.getAllTasks(entityName: "TaskEntity", contex: coreDataManager.viewContex)
+            for task in tasks {
+                notificationManager.setNotification(for: task)
+            }
+        }
     }
     
 }
@@ -172,7 +185,7 @@ extension SettingsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        minutes = row + 1
+        minutes = Int16(row + 1)
     }
     
 }
