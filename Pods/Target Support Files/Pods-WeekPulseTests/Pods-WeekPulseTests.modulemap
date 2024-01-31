@@ -1,6 +1,0 @@
-framework module Pods_WeekPulseTests {
-  umbrella header "Pods-WeekPulseTests-umbrella.h"
-
-  export *
-  module * { export * }
-}
