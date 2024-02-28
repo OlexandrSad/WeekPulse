@@ -22,7 +22,7 @@ final class NetworkManager {
             URLQueryItem(name: "lat", value: lat),
             URLQueryItem(name: "lon", value: lon),
             URLQueryItem(name: "cnt", value: "40"),
-            URLQueryItem(name: "appid", value: "58eac063205faa2ef3a468d1bd4d6c0a"),
+            URLQueryItem(name: "appid", value: "Private key"),
             URLQueryItem(name: "units", value: "metric")
         ]
         let url = urlComponent.url
@@ -38,7 +38,7 @@ final class NetworkManager {
         urlComponent.queryItems = [
             URLQueryItem(name: "q", value: town),
             URLQueryItem(name: "limit", value: "5"),
-            URLQueryItem(name: "appid", value: "58eac063205faa2ef3a468d1bd4d6c0a")
+            URLQueryItem(name: "appid", value: "Private key")
         ]
         let url = urlComponent.url
         return url
