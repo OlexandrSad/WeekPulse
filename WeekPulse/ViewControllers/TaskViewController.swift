@@ -28,6 +28,7 @@ final class TaskViewController: UIViewController, ToTaskVCProtocol {
     @IBOutlet weak var leftImageView: UIImageView!
     @IBOutlet weak var centrImageView: UIImageView!
     @IBOutlet weak var rightImageView: UIImageView!
+    @IBOutlet weak var searchTownButton: UIButton!
     
     let maxLenghtTitle = 40
     let titlePlaceholder = "Enter task title"
@@ -95,6 +96,7 @@ final class TaskViewController: UIViewController, ToTaskVCProtocol {
     private func removeViews(textView: UITextView?, label: UILabel, stack: UIStackView) {
         stack.removeFromSuperview()
         label.removeFromSuperview()
+        searchTownButton.removeFromSuperview()
         
         if let descrTextView = textView {
             let newConstraint = NSLayoutConstraint(item: descrTextView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: -100)
