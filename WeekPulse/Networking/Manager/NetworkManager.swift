@@ -12,7 +12,6 @@ final class NetworkManager {
     static var shared = NetworkManager()
     private init(){}
     
-    
     private func createWeatherUrl(lat: String, lon: String) -> URL? {
         var urlComponent = URLComponents()
         urlComponent.scheme = "https"
@@ -29,7 +28,6 @@ final class NetworkManager {
         return url
     }
     
-    
     private func createTownUrl(town: String) -> URL? {
         var urlComponent = URLComponents()
         urlComponent.scheme = "https"
@@ -43,7 +41,6 @@ final class NetworkManager {
         let url = urlComponent.url
         return url
     }
-    
     
     func fetchWeatherData(lat: String, lon: String, complition: @escaping (Result<WeatherData, Error>) -> Void) {
         let url = createWeatherUrl(lat: lat, lon: lon)
@@ -77,7 +74,6 @@ final class NetworkManager {
         }.resume()
     }
     
-    
     func fetchTownData(town: String, complition: @escaping (Result<TownModel, Error>) -> Void) {
         let url = createTownUrl(town: town)
         
@@ -109,7 +105,6 @@ final class NetworkManager {
             }
         }.resume()
     }
-    
 }
 
 

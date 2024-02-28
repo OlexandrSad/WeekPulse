@@ -42,7 +42,6 @@ final class Animator {
         }
     }
     
-    
     func shakeAnimation(view: UIView) {
         view.layer.cornerRadius = 5
         view.layer.borderWidth = 2
@@ -56,5 +55,4 @@ final class Animator {
             view.layer.borderWidth = 0
         }
     }
-    
 }

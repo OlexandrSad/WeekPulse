@@ -73,7 +73,6 @@ final class SearchTownViewController: UIViewController {
         }
     }
     
-    
 // MARK: Table methods
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let stringTown = onlyNameArray[indexPath.row]
@@ -83,7 +82,6 @@ final class SearchTownViewController: UIViewController {
         }
         self.dismiss(animated: true)
     }
-    
     
 // MARK: Alerts
     private func alertNoInternet() {
@@ -95,7 +93,6 @@ final class SearchTownViewController: UIViewController {
             alert.dismiss(animated: true)
         }
     }
-    
 }
 
 
@@ -112,7 +109,6 @@ extension SearchTownViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = "📌 \(onlyNameArray[indexPath.row])"
         return cell
     }
-    
 }
 
 
@@ -132,5 +128,4 @@ extension SearchTownViewController: UITextFieldDelegate {
         }
         return true
     }
-    
 }

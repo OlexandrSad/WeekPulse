@@ -9,24 +9,25 @@ import UIKit
 import LUNSegmentedControl
 import CoreData
 
+struct Constants {
+    static let heightCell: CGFloat = 70
+    static let backButtonTitle: String = "Back"
+    static let nibNameForCell: String = "TaskTableViewCell"
+    static let cellId: String = "TaskCell"
+    static let sectionCurrent: String = "Current"
+    static let sectionDone: String = "Done"
+    static let sectionEmpty: String = "There are no tasks yet"
+    static let segueToTaskVC: String = "ToTaskVC"
+    static let entityName: String = "TaskEntity"
+    static let sortDescriptor: String = "dedline"
+    static let newPredicateFormat: String = "dedline >= %@ AND dedline < %@"
+}
+
+
 final class ViewController: UIViewController {  
     
     @IBOutlet weak var segment: LUNSegmentedControl!
     @IBOutlet weak var tasksTable: UITableView!
-    
-    struct Constants {
-        static let heightCell: CGFloat = 70
-        static let backButtonTitle = "Back"
-        static let nibNameForCell = "TaskTableViewCell"
-        static let cellId = "TaskCell"
-        static let sectionCurrent = "Current"
-        static let sectionDone = "Done"
-        static let sectionEmpty = "There are no tasks yet"
-        static let segueToTaskVC = "ToTaskVC"
-        static let entityName = "TaskEntity"
-        static let sortDescriptor = "dedline"
-    }
-    
 
     let coreDataManager = CoreDataManager.shared
     let dateFormatter = DateFormatter()
@@ -42,10 +43,78 @@ final class ViewController: UIViewController {
                                                                                sortDescriptor: Constants.sortDescriptor,
                                                                                date: dateForTaskVC)
     
-    
 // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        initialSettings()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        restartAnimationForVisibleCells()
+    }
+        
+// MARK: PerformFetch and restartAnimation
+    private func performNewFetch(for dayOfWeek: Int) {
+        dateComponent.day = dayOfWeek
+        let newDate = calendar.date(byAdding: dateComponent, to: today)
+        
+        guard let choosedDate = newDate else { return }
+        let startOfDay = Calendar.current.startOfDay(for: choosedDate)
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)
+        
+        if let endOfDay = endOfDay {
+            fetchedResultController.fetchRequest.predicate = NSPredicate(format: Constants.newPredicateFormat,
+                                                                         startOfDay as CVarArg, endOfDay as CVarArg)
+            do {
+                try fetchedResultController.performFetch()
+                
+                if let objects = fetchedResultController.fetchedObjects {
+                    countSavedObjects = objects.count
+                }
+                tasksTable.reloadData()
+            } catch {
+                print("Error fetching data in performNewFetch: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func restartAnimationForVisibleCells() {
+        if let visibleCells = tasksTable.visibleCells as? [TaskTableViewCell] {
+            for cell in visibleCells {
+                
+                if let task = cell.taskEntity {
+                    cell.animator.makeAnimation(task: task, label: cell.dedlineLabel, view: cell.priorityView)
+                }
+            }
+        }
+    }
+
+// MARK: To next VC
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let task = fetchedResultController.object(at: indexPath) as? TaskEntity
+        
+        if let safeTask = task, safeTask.isOn {
+            performSegue(withIdentifier: Constants.segueToTaskVC, sender: safeTask)
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constants.segueToTaskVC,
+           var taskVC = segue.destination as? ToTaskVCProtocol {
+            taskVC.dateFromVC = dateForTaskVC
+            taskVC.task = sender as? TaskEntity
+            taskVC.whoCreated = self.restorationIdentifier
+        }
+    }
+}
+
+
+// MARK: - Set functions
+private extension ViewController {
+    
+    func initialSettings() {
         setTable()
         setSegment()
         setTitleVC()
@@ -65,23 +134,14 @@ final class ViewController: UIViewController {
         navigationItem.backButtonTitle = Constants.backButtonTitle
     }
     
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        restartAnimationForVisibleCells()
-    }
-    
-    
-// MARK: Set functions
-    private func setTable() {
+    func setTable() {
         tasksTable.delegate = self
         tasksTable.dataSource = self
         let nib = UINib(nibName: Constants.nibNameForCell, bundle: nil)
         tasksTable.register(nib, forCellReuseIdentifier: Constants.cellId)
     }
     
-    
-    private func setSegment() {
+    func setSegment() {
         segment.delegate = self
         segment.dataSource = self
         segment.backgroundColor = .quaternaryLabel
@@ -91,8 +151,7 @@ final class ViewController: UIViewController {
         segment.layer.borderColor = UIColor.black.cgColor
     }
     
-    
-    private func textColorSegmented(index: Int) -> UIColor {
+    func textColorSegmented(index: Int) -> UIColor {
         dateComponent.day = index
         let newDate = calendar.date(byAdding: dateComponent, to: today)
         dateFormatter.dateFormat = "E"
@@ -104,8 +163,7 @@ final class ViewController: UIViewController {
         }
     }
     
-    
-    private func setTitleVC(addDay: Int = 0) {
+    func setTitleVC(addDay: Int = 0) {
         dateComponent.day = addDay
         let newDate = calendar.date(byAdding: dateComponent, to: today)
         
@@ -116,8 +174,7 @@ final class ViewController: UIViewController {
         }
     }
     
-    
-    private func setDateToTaskVC(addDay: Int) {
+    func setDateToTaskVC(addDay: Int) {
         dateComponent.day = addDay
         let newDate = calendar.date(byAdding: dateComponent, to: today)
         
@@ -125,65 +182,6 @@ final class ViewController: UIViewController {
             dateForTaskVC = date
         }
     }
-    
-    
-// MARK: PerformFetch and restartAnimation
-    private func performNewFetch(for dayOfWeek: Int) {
-        dateComponent.day = dayOfWeek
-        let newDate = calendar.date(byAdding: dateComponent, to: today)
-        
-        guard let choosedDate = newDate else { return }
-        let startOfDay = Calendar.current.startOfDay(for: choosedDate)
-        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)
-        
-        if let endOfDay = endOfDay {
-            fetchedResultController.fetchRequest.predicate = NSPredicate(format: "dedline >= %@ AND dedline < %@", startOfDay as CVarArg, endOfDay as CVarArg)
-            do {
-                try fetchedResultController.performFetch()
-                
-                if let objects = fetchedResultController.fetchedObjects {
-                    countSavedObjects = objects.count
-                }
-                tasksTable.reloadData()
-            } catch {
-                print("Error fetching data in performNewFetch: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    
-    func restartAnimationForVisibleCells() {
-        if let visibleCells = tasksTable.visibleCells as? [TaskTableViewCell] {
-            for cell in visibleCells {
-                
-                if let task = cell.taskEntity {
-                    cell.animator.makeAnimation(task: task, label: cell.dedlineLabel, view: cell.priorityView)
-                }
-            }
-        }
-    }
-
-    
-// MARK: To next VC
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let task = fetchedResultController.object(at: indexPath) as? TaskEntity
-        
-        if let safeTask = task, safeTask.isOn {
-            performSegue(withIdentifier: Constants.segueToTaskVC, sender: safeTask)
-        }
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == Constants.segueToTaskVC,
-           var taskVC = segue.destination as? ToTaskVCProtocol {
-            taskVC.dateFromVC = dateForTaskVC
-            taskVC.task = sender as? TaskEntity
-            taskVC.whoCreated = self.restorationIdentifier
-        }
-    }
-
 }
 
 
@@ -193,7 +191,6 @@ extension ViewController: LUNSegmentedControlDelegate, LUNSegmentedControlDataSo
     func numberOfStates(in segmentedControl: LUNSegmentedControl!) -> Int {
         return 7
     }
-    
     
     func segmentedControl(_ segmentedControl: LUNSegmentedControl!, titleForStateAt index: Int) -> String! {
         segmentedControl.textColor = textColorSegmented(index: index)
@@ -205,7 +202,6 @@ extension ViewController: LUNSegmentedControlDelegate, LUNSegmentedControlDataSo
         dateFormatter.dateFormat = "E-dd"
             return dateFormatter.string(from: newDate)
        }
-    
     
     func segmentedControl(_ segmentedControl: LUNSegmentedControl!, gradientColorsForStateAt index: Int) -> [UIColor]! {
         dateComponent.day = index
@@ -220,13 +216,11 @@ extension ViewController: LUNSegmentedControlDelegate, LUNSegmentedControlDataSo
         }
     }
     
-    
     func segmentedControl(_ segmentedControl: LUNSegmentedControl!, didChangeStateFromStateAt fromIndex: Int, toStateAt toIndex: Int) {
         setTitleVC(addDay: toIndex)
         setDateToTaskVC(addDay: toIndex)
         performNewFetch(for: toIndex)
     }
-    
 }
 
 
@@ -241,7 +235,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let sectionsInfo = fetchedResultController.sections, sectionsInfo.count > 0 {
             return sectionsInfo[section].numberOfObjects
@@ -250,14 +243,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellId) as! TaskTableViewCell
         let taskEntity = fetchedResultController.object(at: indexPath) as! TaskEntity
         cell.taskEntity = taskEntity
         return cell
     }
-    
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if let sectionInfo = fetchedResultController.sections, !sectionInfo.isEmpty {
@@ -267,7 +258,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let task = fetchedResultController.object(at: indexPath) as! TaskEntity
@@ -276,7 +266,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             coreDataManager.saveContext()
         }
     }
-    
 }
 
 
@@ -286,7 +275,6 @@ extension ViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tasksTable.beginUpdates()
     }
-    
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         
@@ -313,7 +301,6 @@ extension ViewController: NSFetchedResultsControllerDelegate {
         }
     }
     
-
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
         switch type {
@@ -338,10 +325,8 @@ extension ViewController: NSFetchedResultsControllerDelegate {
         }
     }
     
-    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         countSavedObjects = fetchedResultController.fetchedObjects?.count
         tasksTable.endUpdates()
     }
-    
 }

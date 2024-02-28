@@ -9,9 +9,8 @@
 import Foundation
 import CoreData
 
-
 extension SettingsEntity {
-
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<SettingsEntity> {
         return NSFetchRequest<SettingsEntity>(entityName: "SettingsEntity")
     }

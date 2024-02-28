@@ -13,7 +13,6 @@ final class CoreDataManager {
     static var shared = CoreDataManager()
     private init(){}
     
-    
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "WeekPulse")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -25,9 +24,7 @@ final class CoreDataManager {
         return container
     }()
     
-    
     lazy var viewContex = persistentContainer.viewContext
-    
     
     func saveContext () {
         let context = persistentContainer.viewContext
@@ -41,9 +38,12 @@ final class CoreDataManager {
             }
         }
     }
-    
-    
+}
+
+
 // MARK: - CRUD Task
+extension CoreDataManager {
+    
     func UpdateOrCreateTask(title: String, ptiority: Int, dedline: Date, dedlineStr: String, descript: String, taskEntity: TaskEntity?) -> TaskEntity? {
         var returnTask: TaskEntity?
         do {
@@ -83,6 +83,48 @@ final class CoreDataManager {
         return returnTask
     }
     
+    func checkExpiredTask(entityName: String, contex: NSManagedObjectContext, today: Date, chosedDay: Date) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd (EEEE)"
+        let startOfToday = Calendar.current.startOfDay(for: today)
+        let startOfChosedDay = Calendar.current.startOfDay(for: chosedDay)
+        
+        guard startOfToday == startOfChosedDay else { return }
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        fetchRequest.predicate = NSPredicate(format: "dedline < %@", startOfToday as CVarArg)
+        do {
+            guard let tasks = try contex.fetch(fetchRequest) as? [TaskEntity], !tasks.isEmpty else { return }
+            for task in tasks {
+                if task.isOn {
+                    task.dedline = startOfToday
+                    task.dedlineStr = dateFormatter.string(from: startOfToday)
+                } else {
+                    contex.delete(task)
+                }
+            }
+            
+            saveContext()
+        } catch {
+            print("Error fetching in checkExpiredTask: \(error.localizedDescription)")
+        }
+    }
+    
+    func getAllTasks(entityName: String, contex: NSManagedObjectContext) -> [TaskEntity] {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        do {
+            if let tasks = try contex.fetch(fetchRequest) as? [TaskEntity], !tasks.isEmpty {
+                return tasks
+            }
+        } catch {
+            print("Error fetching Tasks: \(error.localizedDescription)")
+        }
+        return []
+    }
+}
+
+
+// MARK: - fetchedResultControllers
+extension CoreDataManager {
     
     func fetchedResultController(entityName: String, contex: NSManagedObjectContext, sortDescriptor: String, date: Date) -> NSFetchedResultsController<NSFetchRequestResult> {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
@@ -114,49 +156,12 @@ final class CoreDataManager {
                                                                  cacheName: nil)
         return fetchedResultController
     }
+}
     
-    
-    func checkExpiredTask(entityName: String, contex: NSManagedObjectContext, today: Date, chosedDay: Date) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-dd (EEEE)"
-        let startOfToday = Calendar.current.startOfDay(for: today)
-        let startOfChosedDay = Calendar.current.startOfDay(for: chosedDay)
-        
-        guard startOfToday == startOfChosedDay else { return }
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-        fetchRequest.predicate = NSPredicate(format: "dedline < %@", startOfToday as CVarArg)
-        do {
-            guard let tasks = try contex.fetch(fetchRequest) as? [TaskEntity], !tasks.isEmpty else { return }
-            for task in tasks {
-                if task.isOn {
-                    task.dedline = startOfToday
-                    task.dedlineStr = dateFormatter.string(from: startOfToday)
-                } else {
-                    contex.delete(task)
-                }
-            }
-            
-            saveContext()
-        } catch {
-            print("Error fetching in checkExpiredTask: \(error.localizedDescription)")
-        }
-    }
-    
-    
-    func getAllTasks(entityName: String, contex: NSManagedObjectContext) -> [TaskEntity] {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-        do {
-            if let tasks = try contex.fetch(fetchRequest) as? [TaskEntity], !tasks.isEmpty {
-                return tasks
-            }
-        } catch {
-            print("Error fetching Tasks: \(error.localizedDescription)")
-        }
-        return []
-    }
 
-    
 // MARK: - CRUD Settings
+extension CoreDataManager {
+    
     func createSettings() {
         let fetchRequest: NSFetchRequest<SettingsEntity> = SettingsEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = %@", "Settings")
@@ -182,7 +187,6 @@ final class CoreDataManager {
         }
     }
     
-    
     func getSettings() -> SettingsEntity? {
         var setting: SettingsEntity?
         let fetchRequest: NSFetchRequest<SettingsEntity> = SettingsEntity.fetchRequest()
@@ -197,7 +201,6 @@ final class CoreDataManager {
         }
         return setting
     }
-    
     
     func saveSettings(minutes: Int, showWeath: Bool, town: String, lat: String, lon: String, shosFirst: Int) {
         let fetchRequest: NSFetchRequest<SettingsEntity> = SettingsEntity.fetchRequest()
@@ -217,5 +220,4 @@ final class CoreDataManager {
             print("Error saving SettingsEntity: \(error)")
         }
     }
-    
 }

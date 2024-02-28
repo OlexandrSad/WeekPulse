@@ -12,6 +12,7 @@ final class ParserTownData {
     
     func createTownsArray(townModel: TownModel) -> [String:[String]] {
         var towns = [String:[String]]()
+        
         for element in townModel {
             var fullString = "\(element.name ?? ""), \(element.state ?? ""), \(element.country ?? "")"
             
@@ -25,7 +26,7 @@ final class ParserTownData {
                 towns[fullString] = [lat, lon]
             }
         }
+        
         return towns
     }
-    
 }

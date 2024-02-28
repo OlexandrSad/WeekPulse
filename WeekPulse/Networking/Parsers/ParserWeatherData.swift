@@ -54,15 +54,18 @@ final class ParserWeatherData {
             rightImageView.image = UIImage(named: "-")
         }
     }
-    
-    
-    private func createArrays(weatherData: WeatherData) -> [[List]] {
+}
+
+
+// MARK: - Work with arrays
+private extension ParserWeatherData {
+    func createArrays(weatherData: WeatherData) -> [[List]] {
         var arrays = [[List]]()
         var count = 0
         var tempDay = String(weatherData.list?.first?.date?.prefix(10) ?? "")
         
         guard let list = weatherData.list else { return [[]] }
-       
+        
         for element in list {
             let shortDay = String(element.date?.prefix(10) ?? "")
             
@@ -78,11 +81,11 @@ final class ParserWeatherData {
                 arrays[count].append(element)
             }
         }
+        
         return arrays
     }
     
-    
-    private func findArray(arrays: [[List]], dayVC: Date) -> Int? {
+    func findArray(arrays: [[List]], dayVC: Date) -> Int? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let dateVC = dateFormatter.string(from: dayVC)
@@ -94,11 +97,11 @@ final class ParserWeatherData {
                 selectedArray = index
             }
         }
+        
         return selectedArray
     }
     
-    
-    private func createStringArray(array: [List], indexInArrays: Int, arraysCount: Int) -> [[String]] {
+    func createStringArray(array: [List], indexInArrays: Int, arraysCount: Int) -> [[String]] {
         var stringArray = [[String]]()
         
         if arraysCount == 5 {
@@ -112,12 +115,13 @@ final class ParserWeatherData {
             default: break
             }
         }
+        
         return stringArray
     }
     
     
-// MARK: Create S-F-E arrays
-    private func fullArray(array: [List], timePoints: [String], index1: Int?, index2: Int?, index3: Int?) -> [[String]] {
+    // MARK: Create S-F-E arrays
+    func fullArray(array: [List], timePoints: [String], index1: Int?, index2: Int?, index3: Int?) -> [[String]] {
         var arrays = [[String]]()
         let indexes = [index1, index2, index3]
         for (index, value) in indexes.enumerated() {
@@ -137,8 +141,7 @@ final class ParserWeatherData {
         return arrays
     }
     
-    
-    private func startArray(array: [List]) -> [[String]]  {
+    func startArray(array: [List]) -> [[String]]  {
         var stringArray = [[String]]()
         switch array.count {
         case 7:
@@ -161,8 +164,7 @@ final class ParserWeatherData {
         return stringArray
     }
     
-    
-    private func endArray(array: [List]) -> [[String]] {
+    func endArray(array: [List]) -> [[String]] {
         var stringArray = [[String]]()
         switch array.count {
         case 7:
@@ -184,9 +186,11 @@ final class ParserWeatherData {
         }
         return stringArray
     }
-    
-    
-// MARK: Array for AllWeather VC
+}
+
+
+// MARK: - Array for AllWeather VC
+extension ParserWeatherData {
     func arrayForWeatherVC(weatherData: WeatherData) -> [[String: [[String]]]] {
         var arrayDict = [[String: [[String]]]]()
         let arrays = createArrays(weatherData: weatherData)
@@ -203,5 +207,4 @@ final class ParserWeatherData {
         }
         return arrayDict
     }
-    
 }

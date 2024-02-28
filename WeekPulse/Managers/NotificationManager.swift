@@ -16,7 +16,6 @@ final class NotificationManager {
     
     let notificationCentr = UNUserNotificationCenter.current()
     
-    
     func requestAuthorization() {
         notificationCentr.requestAuthorization(options: [.alert, .badge, .sound]) { granded, error in
             
@@ -26,7 +25,6 @@ final class NotificationManager {
             }
         }
     }
-    
     
     func setNotification(for task: TaskEntity) {
         guard let minutes = CoreDataManager.shared.getSettings()?.minutes else { return }
@@ -57,13 +55,11 @@ final class NotificationManager {
         }
     }
     
-    
     func deleteNotification(for task: TaskEntity) {
         if let id = task.id {
             notificationCentr.removePendingNotificationRequests(withIdentifiers: [id])
         }
     }
-
 }
 
 

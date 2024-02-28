@@ -17,13 +17,11 @@ final class WeatherTableViewCell: UITableViewCell {
     @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var conditionLabel: UILabel!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         tempConstLabel.text = "t, ℃"
         windConstLabel.text = "Wind, m/s"
     }
-    
     
     func setViews(array: [String]) {
         timeLabel.text = array[0]
@@ -32,5 +30,4 @@ final class WeatherTableViewCell: UITableViewCell {
         iconImageView.image = UIImage(named: array[3])
         conditionLabel.text = array[4]
     }
-    
 }

@@ -11,7 +11,7 @@ import CoreData
 
 
 extension TaskEntity {
-
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<TaskEntity> {
         return NSFetchRequest<TaskEntity>(entityName: "TaskEntity")
     }

@@ -31,7 +31,6 @@ final class AllTasksViewController: UIViewController {
         fetchedResultController.delegate = self
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -45,7 +44,6 @@ final class AllTasksViewController: UIViewController {
             countSavedObjects = objects.count
         }
     }
-    
     
 // MARK: Table methods
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -72,16 +70,13 @@ final class AllTasksViewController: UIViewController {
         return headerView
     }
     
-    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
     
-    
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let task = fetchedResultController.object(at: sourceIndexPath) as? TaskEntity
@@ -112,7 +107,6 @@ final class AllTasksViewController: UIViewController {
         
     }
     
-    
 // MARK: To next VC
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let task = fetchedResultController.object(at: indexPath) as? TaskEntity
@@ -122,7 +116,6 @@ final class AllTasksViewController: UIViewController {
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "FromAllToTaskVC",
@@ -134,7 +127,6 @@ final class AllTasksViewController: UIViewController {
             taskVC.whoCreated = self.restorationIdentifier
         }
     }
-    
     
 // MARK: Actions
     @IBAction func toggleEditingMode(_ sender: UIBarButtonItem) {
@@ -157,7 +149,6 @@ extension AllTasksViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let sectionsInfo = fetchedResultController.sections, sectionsInfo.count > 0 {
             return sectionsInfo[section].numberOfObjects
@@ -166,14 +157,12 @@ extension AllTasksViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TasksCell") as! TasksTableViewCell
         let taskEntity = fetchedResultController.object(at: indexPath) as! TaskEntity
         cell.taskEntity = taskEntity
         return cell
     }
-    
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -183,7 +172,6 @@ extension AllTasksViewController: UITableViewDelegate, UITableViewDataSource {
             coreDataManager.saveContext()
         }
     }
-    
 }
 
 
@@ -193,7 +181,6 @@ extension AllTasksViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tasksTable.beginUpdates()
     }
-    
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         
@@ -215,7 +202,6 @@ extension AllTasksViewController: NSFetchedResultsControllerDelegate {
         }
     }
     
-
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
         switch type {
@@ -240,10 +226,8 @@ extension AllTasksViewController: NSFetchedResultsControllerDelegate {
         }
     }
     
-    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         countSavedObjects = fetchedResultController.fetchedObjects?.count
         tasksTable.endUpdates()
     }
-    
 }

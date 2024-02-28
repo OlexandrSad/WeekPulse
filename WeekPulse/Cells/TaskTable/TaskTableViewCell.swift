@@ -31,7 +31,6 @@ final class TaskTableViewCell: UITableViewCell {
         }
     }
     
-    
     private func setInCell(taskEntity: TaskEntity?) {
         guard let task = taskEntity, let date = task.dedline else { return }
         titleLabel.text = task.title
@@ -47,7 +46,6 @@ final class TaskTableViewCell: UITableViewCell {
         let index = Int(task.priority)
         setPriorityView(taskIsOn: task.isOn, priority: index)
     }
-    
     
     private func setPriorityView(taskIsOn: Bool, priority: Int) {
         priorityView.layer.cornerRadius = 15
@@ -68,7 +66,6 @@ final class TaskTableViewCell: UITableViewCell {
             priorityView.layer.shadowColor = colorPriorityView.last?.cgColor
         }
     }
-    
 
     @IBAction func isOnTaskSwitch(_ sender: UISwitch) {
         taskEntity?.isOn = sender.isOn
@@ -81,5 +78,4 @@ final class TaskTableViewCell: UITableViewCell {
             NotificationManager.shared.deleteNotification(for: task)
         }
     }
-    
 }
