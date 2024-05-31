@@ -1,5 +1,5 @@
 English:
-To run the application, you need to add the private key "58eac063205faaa2ef3a468d1bd4d6c0a" to tapes 25 and 41 of the NetworkManager.swift file.
+To run the application, you need to add the private key "58eac063205faaa2ef3a468d1bd4d6c0a" to tapes 24 and 39 of the NetworkManager.swift file.
 
 This application was created for time management of its time.
 In the application, you can create tasks and set a deadline for its execution. 
@@ -18,7 +18,7 @@ Also in the settings, you can turn on/off the weather display, select the city t
 
 
 Українська:
-Для запуску додатку потрібно додати приватний ключ «58eac063205faa2ef3a468d1bd4d6c0a" у стрічки 25 та 41 файлу NetworkManager.swift.
+Для запуску додатку потрібно додати приватний ключ «58eac063205faa2ef3a468d1bd4d6c0a" у стрічки 24 та 39 файлу NetworkManager.swift.
 
 Цей додаток створено для тайм-менеджменту свого часу. 
 У додатку можна створювати завдання та встановлювати дедлайн його на виконання. 
